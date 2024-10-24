@@ -1,5 +1,5 @@
 # Import Streamlit dan pustaka yang diperlukan
-import streamlit as st
+
 import pandas as pd
 import joblib
 from sklearn.preprocessing import StandardScaler
