@@ -159,8 +159,9 @@ if sensor_data is not None and model is not None and scaler is not None:
             <style>
             table { width: 100%; }
             thead th { text-align: center; background-color: #f0f0f0; }
-            th { width: 40%; }  /* Mengatur lebar kolom Variabel */
-            td:nth-child(2) { width: 20%; text-align: left; }  /* Mengatur lebar kolom Value */
+            th { width: 50%; }  /* Mengatur lebar kolom Variabel */
+            td { width: 50%; text-align: left; }  /* Mengatur lebar kolom Value */
+            td { max-width: 200px; } /* Memaksakan agar Value tidak melebar */
             </style>
         """, unsafe_allow_html=True)
 
