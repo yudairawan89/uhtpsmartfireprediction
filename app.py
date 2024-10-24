@@ -203,7 +203,7 @@ if model is not None and scaler is not None:
 
     suhu = st.number_input("Suhu Udara (°C)", min_value=0.0, max_value=100.0, value=25.0)
     kelembapan_udara = st.number_input("Kelembapan Udara (%)", min_value=0.0, max_value=100.0, value=50.0)
-    curah hujan = st.number_input("Curah Hujan/Jam (mm)", min_value=0.0, max_value=500.0, value=10.0)
+    curah_hujan = st.number_input("Curah Hujan/Jam (mm)", min_value=0.0, max_value=500.0, value=10.0)
     kecepatan_angin = st.number_input("Kecepatan Angin (ms)", min_value=0.0, max_value=100.0, value=5.0)
     kelembapan_tanah = st.number_input("Kelembapan Tanah (%)", min_value=0.0, max_value=100.0, value=40.0)
 
@@ -211,7 +211,7 @@ if model is not None and scaler is not None:
     input_data = pd.DataFrame({
         'Tavg: Temperatur rata-rata (°C)': [suhu],
         'RH_avg: Kelembapan rata-rata (%)': [kelembapan_udara],
-        'RR: Curah hujan (mm)': [curah hujan],
+        'RR: Curah hujan (mm)': [curah_hujan],
         'ff_avg: Kecepatan angin rata-rata (m/s)': [kecepatan_angin],
         'Kelembaban Perbukaan Tanah': [kelembapan_tanah]
     })
