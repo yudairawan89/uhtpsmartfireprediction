@@ -55,22 +55,22 @@ data_url = 'https://docs.google.com/spreadsheets/d/1ZscUJ6SLPIF33t8ikVHUmR68b-y3
 if st.button('Refresh Data'):
     st.cache_data.clear()  # Hapus cache agar data terbaru dimuat
 
-# Tampilkan hasil prediksi data paling akhir setelah refresh data
-st.subheader("Hasil Prediksi Data Paling Akhir")
-with st.expander("Klik untuk melihat detail variabel dan hasil prediksi"):
-    # Muat Data
-    sensor_data = load_data(data_url)
+# Muat Data
+sensor_data = load_data(data_url)
 
-    if sensor_data is not None:
-        # Mengganti nama kolom sesuai dengan model yang dilatih
-        sensor_data = sensor_data.rename(columns={
-            'Suhu Udara': 'Tavg: Temperatur rata-rata (°C)',
-            'Kelembapan Udara': 'RH_avg: Kelembapan rata-rata (%)',
-            'Curah Hujan/Jam': 'RR: Curah hujan (mm)',
-            'Kecepatan Angin (ms)': 'ff_avg: Kecepatan angin rata-rata (m/s)',
-            'Kelembapan Tanah': 'Kelembaban Perbukaan Tanah'
-        })
+if sensor_data is not None:
+    # Mengganti nama kolom sesuai dengan model yang dilatih
+    sensor_data = sensor_data.rename(columns={
+        'Suhu Udara': 'Tavg: Temperatur rata-rata (°C)',
+        'Kelembapan Udara': 'RH_avg: Kelembapan rata-rata (%)',
+        'Curah Hujan/Jam': 'RR: Curah hujan (mm)',
+        'Kecepatan Angin (ms)': 'ff_avg: Kecepatan angin rata-rata (m/s)',
+        'Kelembapan Tanah': 'Kelembaban Perbukaan Tanah'
+    })
 
+    # Tampilkan hasil prediksi data paling akhir setelah refresh data
+    st.subheader("Hasil Prediksi Data Paling Akhir")
+    with st.expander("Klik untuk melihat detail variabel dan hasil prediksi"):
         last_row = sensor_data.iloc[-1]
         st.write("**Variabel Data Paling Akhir:**")
         st.write(last_row[['Tavg: Temperatur rata-rata (°C)', 'RH_avg: Kelembapan rata-rata (%)', 
@@ -92,10 +92,6 @@ with st.expander("Klik untuk melihat detail variabel dan hasil prediksi"):
             unsafe_allow_html=True
         )
 
-# Muat Data
-sensor_data = load_data(data_url)
-
-if sensor_data is not None:
     st.subheader("Data Sensor")
     st.dataframe(sensor_data)
 
