@@ -187,4 +187,6 @@ if sensor_data is not None:
             user_risk_style = risk_styles.get(user_label, {"color": "black", "background-color": "white"})
 
             st.markdown(
-                f"<p style='color:{user_risk_style['color']}; background-color:{user_risk_style['background-color
+                f"<p style='color:{user_risk_style['color']}; background-color:{user_risk_style['background-color']}; font-weight: bold; padding: 10px; border-radius: 5px;'>Prediksi Risiko Kebakaran: {user_label}</p>", 
+                unsafe_allow_html=True
+            )
