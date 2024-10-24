@@ -13,12 +13,6 @@ with col2:
     # Judul Aplikasi
     st.title("UHTP Smart Fire Prediction")
 
-# Deskripsi Aplikasi
-st.markdown("""
-Sistem Prediksi Tingkat Resiko Kebakaran Hutan dan Lahan menggunakan pengembangan model Hybrid Machine dan Deep Learning.
-Data diambil dari perangkat IoT secara Realtime [Google Sheets](https://docs.google.com/spreadsheets/d/1ZscUJ6SLPIF33t8ikVHUmR68b-y3Q9_r_p9d2rDRMCM/edit?usp=sharing).
-""")
-
 # Fungsi untuk memuat data
 @st.cache_data
 def load_data(url):
@@ -52,9 +46,18 @@ def load_scaler(scaler_path):
 # URL Data Google Sheets (format CSV)
 data_url = 'https://docs.google.com/spreadsheets/d/1ZscUJ6SLPIF33t8ikVHUmR68b-y3Q9_r_p9d2rDRMCM/export?format=csv'
 
-# Tombol untuk refresh data
+# Menambahkan fitur refresh otomatis setiap 3 detik
+st_autorefresh(interval=3000, key="data_refresh")
+
+# Tombol untuk refresh data manual
 if st.button('Refresh Data'):
     st.cache_data.clear()  # Hapus cache agar data terbaru dimuat
+
+# Deskripsi aplikasi yang dipindahkan ke bawah tombol
+st.markdown("""
+Sistem Prediksi Tingkat Resiko Kebakaran Hutan dan Lahan menggunakan pengembangan model Hybrid Machine dan Deep Learning.
+Data diambil dari perangkat IoT secara Realtime [Google Sheets](https://docs.google.com/spreadsheets/d/1ZscUJ6SLPIF33t8ikVHUmR68b-y3Q9_r_p9d2rDRMCM/edit?usp=sharing).
+""")
 
 # Muat Data
 sensor_data = load_data(data_url)
@@ -181,20 +184,4 @@ if sensor_data is not None:
             user_risk_style = risk_styles.get(user_label, {"color": "black", "background-color": "white"})
 
             st.markdown(
-                f"<p style='color:{user_risk_style['color']}; background-color:{user_risk_style['background-color']}; font-weight: bold; padding: 10px; border-radius: 5px;'>Prediksi Risiko Kebakaran: {user_label}</p>", 
-                unsafe_allow_html=True
-            )
-        else:
-            st.error("Data sensor tidak memiliki semua kolom fitur yang diperlukan.")
-
-# Footer dengan logo dan tulisan
-st.markdown("---")  # Garis pembatas untuk memisahkan footer
-col1, col2, col3 = st.columns([1, 3, 1])  # Layout kolom untuk gambar logo dan teks
-with col1:
-    st.image("kemdikbud.png", width=100)  # Menampilkan logo Kemdikbud
-with col2:
-    st.markdown("<h3 style='text-align: center;'>UHTP Smart Fire Prediction - 2024</h3>", unsafe_allow_html=True)
-with col3:
-    st.image("uhtp.png", width=100)  # Menampilkan logo UHTP
-
-st.markdown("<p style='text-align: center;'>Dikembangkan oleh Universitas Hang Tuah Pekanbaru</p>", unsafe_allow_html=True)
+                f"<p style='color:{user_risk_style['color']}; background-color:{user_risk_style['background-color']}; font-weight: bold; padding: 10px; border-radius: 5px;'>Prediksi Risiko Kebakaran: {user_label}</p
