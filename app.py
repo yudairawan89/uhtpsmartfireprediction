@@ -135,17 +135,19 @@ if sensor_data is not None:
                 st.write("**Variabel Data Paling Akhir:**")
                 st.write(last_row[fitur])
 
-                # Prediksi Kebakaran berdasarkan risiko dengan warna
+                # Prediksi Kebakaran berdasarkan risiko dengan warna dan latar belakang
                 risk = last_row['Prediksi Kebakaran']
-                risk_color = {
-                    "Low": "blue",
-                    "Moderate": "green",
-                    "High": "yellow",
-                    "Very High": "red"
-                }.get(risk, "black")
+                risk_styles = {
+                    "Low": {"color": "white", "background-color": "blue"},
+                    "Moderate": {"color": "white", "background-color": "green"},
+                    "High": {"color": "black", "background-color": "yellow"},
+                    "Very High": {"color": "white", "background-color": "red"}
+                }
+
+                risk_style = risk_styles.get(risk, {"color": "black", "background-color": "white"})
 
                 st.markdown(
-                    f"<p style='color:{risk_color}; font-weight: bold;'>Prediksi Kebakaran: {risk}</p>", 
+                    f"<p style='color:{risk_style['color']}; background-color:{risk_style['background-color']}; font-weight: bold; padding: 10px; border-radius: 5px;'>Prediksi Kebakaran: {risk}</p>", 
                     unsafe_allow_html=True
                 )
 
@@ -175,17 +177,8 @@ if sensor_data is not None:
             user_prediction = model.predict(input_scaled)
             user_label = convert_to_label(user_prediction[0])
 
-            # Tampilkan hasil prediksi
-            user_risk_color = {
-                "Low": "blue",
-                "Moderate": "green",
-                "High": "yellow",
-                "Very High": "red"
-            }.get(user_label, "black")
+            # Menampilkan hasil prediksi dengan background warna
+            user_risk_style = risk_styles.get(user_label, {"color": "black", "background-color": "white"})
 
             st.markdown(
-                f"<p style='color:{user_risk_color}; font-weight: bold;'>Prediksi Risiko Kebakaran: {user_label}</p>", 
-                unsafe_allow_html=True
-            )
-        else:
-            st.error("Data sensor tidak memiliki semua kolom fitur yang diperlukan.")
+                f"<p style='color:{user_risk_style['color']}; background-color:{user_risk_style['background-color']}; font-weight: bold; padding: 10px; border-radius:
