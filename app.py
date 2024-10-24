@@ -102,29 +102,37 @@ if sensor_data is not None:
         bulan_indonesia = convert_month_to_indonesian(waktu_prediksi.strftime('%B'))
         tanggal_prediksi = waktu_prediksi.strftime(f'%d {bulan_indonesia} %Y')
 
-        st.write("**Variabel Data Paling Akhir:**")
+        # Fitur yang diharapkan ada di data
         fitur = ['Tavg: Temperatur rata-rata (°C)', 'RH_avg: Kelembapan rata-rata (%)', 'RR: Curah hujan (mm)',
                  'ff_avg: Kecepatan angin rata-rata (m/s)', 'Kelembaban Perbukaan Tanah']
-        st.write(last_row[fitur])
 
-        # Prediksi Kebakaran berdasarkan risiko
-        risk = last_row['Prediksi Kebakaran']
-        risk_styles = {
-            "Low": {"color": "white", "background-color": "blue"},
-            "Moderate": {"color": "white", "background-color": "green"},
-            "High": {"color": "black", "background-color": "yellow"},
-            "Very High": {"color": "white", "background-color": "red"}
-        }
+        # Periksa apakah semua kolom yang dibutuhkan ada di data
+        missing_columns = [col for col in fitur if col not in last_row.index]
 
-        risk_style = risk_styles.get(risk, {"color": "black", "background-color": "white"})
+        if missing_columns:
+            st.error(f"Kolom berikut tidak ditemukan di data: {', '.join(missing_columns)}")
+        else:
+            st.write("**Variabel Data Paling Akhir:**")
+            st.write(last_row[fitur])
 
-        # Menampilkan prediksi kebakaran dengan indikator risiko lebih besar, tebal, dan garis bawah
-        st.markdown(
-            f"<p style='color:{risk_style['color']}; background-color:{risk_style['background-color']}; padding: 10px; border-radius: 5px;'>"
-            f"Pada hari {hari_indonesia}, tanggal {tanggal_prediksi}, lahan ini diprediksi memiliki tingkat resiko kebakaran: "
-            f"<span style='font-weight: bold; font-size: 28px; text-decoration: underline;'>{risk}</span></p>", 
-            unsafe_allow_html=True
-        )
+            # Prediksi Kebakaran berdasarkan risiko
+            risk = last_row['Prediksi Kebakaran']
+            risk_styles = {
+                "Low": {"color": "white", "background-color": "blue"},
+                "Moderate": {"color": "white", "background-color": "green"},
+                "High": {"color": "black", "background-color": "yellow"},
+                "Very High": {"color": "white", "background-color": "red"}
+            }
+
+            risk_style = risk_styles.get(risk, {"color": "black", "background-color": "white"})
+
+            # Menampilkan prediksi kebakaran dengan indikator risiko lebih besar, tebal, dan garis bawah
+            st.markdown(
+                f"<p style='color:{risk_style['color']}; background-color:{risk_style['background-color']}; padding: 10px; border-radius: 5px;'>"
+                f"Pada hari {hari_indonesia}, tanggal {tanggal_prediksi}, lahan ini diprediksi memiliki tingkat resiko kebakaran: "
+                f"<span style='font-weight: bold; font-size: 28px; text-decoration: underline;'>{risk}</span></p>", 
+                unsafe_allow_html=True
+            )
 
     # Lanjutkan menampilkan data sensor dan hasil prediksi setelah menampilkan bagian ini
     st.subheader("Data Sensor")
