@@ -180,7 +180,7 @@ if sensor_data is not None and model is not None and scaler is not None:
 
 # Bagian Data Sensor di bawah Hasil Prediksi
 if sensor_data is not None:
-    st.subheader("Data Sensor")
+    st.subheader("Data Sensor Realtime")
     st.dataframe(sensor_data)
 
     # Fitur download hasil prediksi sebagai CSV
