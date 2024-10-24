@@ -175,7 +175,7 @@ if sensor_data is not None:
                 )
 
             # Fitur Input Manual untuk Prediksi Real-time
-            st.subheader("Prediksi Kebakaran Baru")
+            st.subheader("Uji Prediksi Resiko Kebakaran Menggunakan Data Baru")
             st.markdown("Masukkan nilai sensor untuk memprediksi kemungkinan kebakaran.")
 
             suhu = st.number_input("Suhu Udara (°C)", min_value=0.0, max_value=100.0, value=25.0)
