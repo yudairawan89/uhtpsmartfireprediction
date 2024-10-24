@@ -5,8 +5,13 @@ import joblib
 from sklearn.preprocessing import StandardScaler
 import io
 
-# Judul Aplikasi
-st.title("UHTP Smart Fire Prediction")
+# Menambahkan logo di sebelah kiri tulisan "UHTP Smart Fire Prediction"
+col1, col2 = st.columns([1, 6])  # Membuat layout kolom untuk logo dan judul
+with col1:
+    st.image("logo.png", width=100)  # Menambahkan logo dari folder yang sama dengan aplikasi
+with col2:
+    # Judul Aplikasi
+    st.title("UHTP Smart Fire Prediction")
 
 # Deskripsi Aplikasi
 st.markdown("""
