@@ -18,6 +18,24 @@ def convert_day_to_indonesian(day_name):
     }
     return days_translation.get(day_name, day_name)
 
+# Fungsi untuk mengonversi bulan ke bahasa Indonesia
+def convert_month_to_indonesian(month_name):
+    months_translation = {
+        'January': 'Januari',
+        'February': 'Februari',
+        'March': 'Maret',
+        'April': 'April',
+        'May': 'Mei',
+        'June': 'Juni',
+        'July': 'Juli',
+        'August': 'Agustus',
+        'September': 'September',
+        'October': 'Oktober',
+        'November': 'November',
+        'December': 'Desember'
+    }
+    return months_translation.get(month_name, month_name)
+
 # Menambahkan logo di sebelah kiri tulisan "UHTP Smart Fire Prediction"
 col1, col2 = st.columns([1, 6])  # Membuat layout kolom untuk logo dan judul
 with col1:
@@ -72,7 +90,43 @@ if st.button('Refresh Data'):
 # Muat Data
 sensor_data = load_data(data_url)
 
+# Tampilkan hasil prediksi data paling akhir setelah tombol refresh data
 if sensor_data is not None:
+    st.subheader("Hasil Prediksi Data Paling Akhir")
+    with st.expander("Klik untuk melihat detail variabel dan hasil prediksi"):
+        last_row = sensor_data.iloc[-1]
+
+        # Mengambil waktu dari kolom waktu dan format menjadi hari, tanggal, bulan, tahun
+        waktu_prediksi = pd.to_datetime(last_row['Waktu'])
+        hari_indonesia = convert_day_to_indonesian(waktu_prediksi.strftime('%A'))
+        bulan_indonesia = convert_month_to_indonesian(waktu_prediksi.strftime('%B'))
+        tanggal_prediksi = waktu_prediksi.strftime(f'%d {bulan_indonesia} %Y')
+
+        st.write("**Variabel Data Paling Akhir:**")
+        fitur = ['Tavg: Temperatur rata-rata (°C)', 'RH_avg: Kelembapan rata-rata (%)', 'RR: Curah hujan (mm)',
+                 'ff_avg: Kecepatan angin rata-rata (m/s)', 'Kelembaban Perbukaan Tanah']
+        st.write(last_row[fitur])
+
+        # Prediksi Kebakaran berdasarkan risiko
+        risk = last_row['Prediksi Kebakaran']
+        risk_styles = {
+            "Low": {"color": "white", "background-color": "blue"},
+            "Moderate": {"color": "white", "background-color": "green"},
+            "High": {"color": "black", "background-color": "yellow"},
+            "Very High": {"color": "white", "background-color": "red"}
+        }
+
+        risk_style = risk_styles.get(risk, {"color": "black", "background-color": "white"})
+
+        # Menampilkan prediksi kebakaran dengan indikator risiko lebih besar, tebal, dan garis bawah
+        st.markdown(
+            f"<p style='color:{risk_style['color']}; background-color:{risk_style['background-color']}; padding: 10px; border-radius: 5px;'>"
+            f"Pada hari {hari_indonesia}, tanggal {tanggal_prediksi}, lahan ini diprediksi memiliki tingkat resiko kebakaran: "
+            f"<span style='font-weight: bold; font-size: 28px; text-decoration: underline;'>{risk}</span></p>", 
+            unsafe_allow_html=True
+        )
+
+    # Lanjutkan menampilkan data sensor dan hasil prediksi setelah menampilkan bagian ini
     st.subheader("Data Sensor")
     st.dataframe(sensor_data)
 
@@ -140,72 +194,6 @@ if sensor_data is not None:
                 data=csv,
                 file_name='hasil_prediksi_kebakaran.csv',
                 mime='text/csv'
-            )
-
-            # Tampilkan hasil prediksi data paling akhir setelah sensor data
-            st.subheader("Hasil Prediksi Data Paling Akhir")
-            with st.expander("Klik untuk melihat detail variabel dan hasil prediksi"):
-                last_row = sensor_data.iloc[-1]
-
-                # Mengambil waktu dari kolom waktu dan format menjadi hari, tanggal, bulan, tahun
-                waktu_prediksi = pd.to_datetime(last_row['Waktu'])
-                hari_indonesia = convert_day_to_indonesian(waktu_prediksi.strftime('%A'))
-                tanggal_prediksi = waktu_prediksi.strftime('%d %B %Y')
-
-                st.write("**Variabel Data Paling Akhir:**")
-                st.write(last_row[fitur])
-
-                # Prediksi Kebakaran berdasarkan risiko
-                risk = last_row['Prediksi Kebakaran']
-                risk_styles = {
-                    "Low": {"color": "white", "background-color": "blue"},
-                    "Moderate": {"color": "white", "background-color": "green"},
-                    "High": {"color": "black", "background-color": "yellow"},
-                    "Very High": {"color": "white", "background-color": "red"}
-                }
-
-                risk_style = risk_styles.get(risk, {"color": "black", "background-color": "white"})
-
-                # Menampilkan prediksi kebakaran dengan indikator risiko lebih besar, tebal, dan garis bawah
-                st.markdown(
-                    f"<p style='color:{risk_style['color']}; background-color:{risk_style['background-color']}; padding: 10px; border-radius: 5px;'>"
-                    f"Pada hari {hari_indonesia}, tanggal {tanggal_prediksi}, lahan ini diprediksi memiliki tingkat resiko kebakaran: "
-                    f"<span style='font-weight: bold; font-size: 28px; text-decoration: underline;'>{risk}</span></p>", 
-                    unsafe_allow_html=True
-                )
-
-            # Fitur Input Manual untuk Prediksi Real-time
-            st.subheader("Prediksi Kebakaran Baru")
-            st.markdown("Masukkan nilai sensor untuk memprediksi kemungkinan kebakaran.")
-
-            suhu = st.number_input("Suhu Udara (°C)", min_value=0.0, max_value=100.0, value=25.0)
-            kelembapan_udara = st.number_input("Kelembapan Udara (%)", min_value=0.0, max_value=100.0, value=50.0)
-            curah_hujan = st.number_input("Curah Hujan/Jam (mm)", min_value=0.0, max_value=500.0, value=10.0)
-            kecepatan_angin = st.number_input("Kecepatan Angin (ms)", min_value=0.0, max_value=100.0, value=5.0)
-            kelembapan_tanah = st.number_input("Kelembapan Tanah (%)", min_value=0.0, max_value=100.0, value=40.0)
-
-            # Buat DataFrame dari input pengguna
-            input_data = pd.DataFrame({
-                'Tavg: Temperatur rata-rata (°C)': [suhu],
-                'RH_avg: Kelembapan rata-rata (%)': [kelembapan_udara],
-                'RR: Curah hujan (mm)': [curah_hujan],
-                'ff_avg: Kecepatan angin rata-rata (m/s)': [kecepatan_angin],
-                'Kelembaban Perbukaan Tanah': [kelembapan_tanah]
-            })
-
-            # Pra-pemrosesan input pengguna menggunakan scaler yang sudah dilatih
-            input_scaled = scaler.transform(input_data)
-
-            # Prediksi untuk input pengguna
-            user_prediction = model.predict(input_scaled)
-            user_label = convert_to_label(user_prediction[0])
-
-            # Menampilkan hasil prediksi dengan background warna
-            user_risk_style = risk_styles.get(user_label, {"color": "black", "background-color": "white"})
-
-            st.markdown(
-                f"<p style='color:{user_risk_style['color']}; background-color:{user_risk_style['background-color']}; font-weight: bold; padding: 10px; border-radius: 5px;'>Prediksi Risiko Kebakaran: {user_label}</p>", 
-                unsafe_allow_html=True
             )
         else:
             st.error("Data sensor tidak memiliki semua kolom fitur yang diperlukan.")
