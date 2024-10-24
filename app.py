@@ -123,6 +123,9 @@ if sensor_data is not None:
             # Prediksi
             predictions = model.predict(fitur_scaled_df)
 
+            # Debugging hasil prediksi
+            st.write("Hasil prediksi numerik dari model: ", predictions)
+
             # Konversi prediksi numerik ke label kategori
             def convert_to_label(pred):
                 if pred == 0:
@@ -134,9 +137,13 @@ if sensor_data is not None:
                 elif pred == 3:
                     return "Very High"
                 else:
-                    return "Unknown"
+                    return "Unknown"  # Ini hanya fallback jika prediksi keluar dari range 0-3
 
+            # Buat kolom untuk hasil prediksi setelah dikonversi ke label
             sensor_data['Prediksi Kebakaran'] = [convert_to_label(pred) for pred in predictions]
+
+            # Debugging hasil konversi label
+            st.write("Hasil prediksi setelah dikonversi ke label: ", sensor_data['Prediksi Kebakaran'])
 
             # Menambahkan tampilan hasil prediksi di bawah data sensor
             st.subheader("Hasil Prediksi")
