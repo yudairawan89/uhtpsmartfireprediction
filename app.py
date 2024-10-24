@@ -4,6 +4,7 @@ import pandas as pd
 import joblib
 from sklearn.preprocessing import StandardScaler
 import io
+import time
 
 # Menambahkan logo di sebelah kiri tulisan "UHTP Smart Fire Prediction"
 col1, col2 = st.columns([1, 6])  # Membuat layout kolom untuk logo dan judul
@@ -46,8 +47,10 @@ def load_scaler(scaler_path):
 # URL Data Google Sheets (format CSV)
 data_url = 'https://docs.google.com/spreadsheets/d/1ZscUJ6SLPIF33t8ikVHUmR68b-y3Q9_r_p9d2rDRMCM/export?format=csv'
 
-# Menambahkan fitur refresh otomatis setiap 3 detik
-st_autorefresh(interval=3000, key="data_refresh")
+# Refresh otomatis menggunakan st.experimental_rerun()
+refresh_interval = 3  # Interval dalam detik
+time.sleep(refresh_interval)
+st.experimental_rerun()
 
 # Tombol untuk refresh data manual
 if st.button('Refresh Data'):
@@ -184,6 +187,4 @@ if sensor_data is not None:
             user_risk_style = risk_styles.get(user_label, {"color": "black", "background-color": "white"})
 
             st.markdown(
-                f"<p style='color:{user_risk_style['color']}; background-color:{user_risk_style['background-color']}; font-weight: bold; padding: 10px; border-radius: 5px;'>Prediksi Risiko Kebakaran: {user_label}</p>", 
-                unsafe_allow_html=True
-            )
+                f"<p style='color:{user_risk_style['color']}; background-color:{user_risk_style['background-color
