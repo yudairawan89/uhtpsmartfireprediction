@@ -94,39 +94,19 @@ sensor_data = load_data(data_url)
 model = load_model('meta_LR.joblib')
 scaler = load_scaler('scaler.joblib')
 
-# Debugging kolom data sensor untuk memeriksa apakah semua kolom tersedia
-if sensor_data is not None:
-    st.write("Kolom data yang tersedia:", sensor_data.columns)
-
-# Fungsi untuk mengonversi prediksi ke label risiko
-def convert_to_label(pred):
-    if pred == 0:
-        return "High"
-    elif pred == 1:
-        return "Low"
-    elif pred == 2:
-        return "Moderate"
-    elif pred == 3:
-        return "Very High"
-    else:
-        return "Unknown"
-
 # Tampilkan hasil prediksi data paling akhir sebelum data sensor
 if sensor_data is not None and model is not None and scaler is not None:
     st.subheader("Hasil Prediksi Data Paling Akhir")
 
-    # Mengganti nama kolom hanya untuk tampilan, bukan untuk model
-    display_columns = {
-        'Tavg: Temperatur rata-rata (°C)': 'Tavg (°C)',
-        'RH_avg: Kelembapan rata-rata (%)': 'RH_avg (%)',
-        'RR: Curah hujan (mm)': 'RR (mm)',
-        'ff_avg: Kecepatan angin rata-rata (m/s)': 'ff_avg (m/s)',
-        'Kelembaban Perbukaan Tanah': 'SM (%)',
+    # Mengganti nama kolom sesuai dengan model yang dilatih
+    sensor_data = sensor_data.rename(columns={
+        'Suhu Udara': 'Tavg: Temperatur rata-rata (°C)',
+        'Kelembapan Udara': 'RH_avg: Kelembapan rata-rata (%)',
+        'Curah Hujan/Jam': 'RR: Curah hujan (mm)',
+        'Kecepatan Angin (ms)': 'ff_avg: Kecepatan angin rata-rata (m/s)',
+        'Kelembapan Tanah': 'Kelembaban Perbukaan Tanah',
         'Waktu': 'Waktu'  # Pastikan ada kolom waktu
-    }
-
-    # Copy original data and replace display names for rendering
-    sensor_data_display = sensor_data.rename(columns=display_columns)
+    })
 
     # Fitur yang akan diprediksi
     fitur = ['Tavg: Temperatur rata-rata (°C)', 'RH_avg: Kelembapan rata-rata (%)', 'RR: Curah hujan (mm)',
@@ -152,6 +132,18 @@ if sensor_data is not None and model is not None and scaler is not None:
         predictions = model.predict(fitur_scaled_df)
 
         # Konversi prediksi numerik ke label kategori
+        def convert_to_label(pred):
+            if pred == 0:
+                return "High"
+            elif pred == 1:
+                return "Low"
+            elif pred == 2:
+                return "Moderate"
+            elif pred == 3:
+                return "Very High"
+            else:
+                return "Unknown"
+
         sensor_data['Prediksi Kebakaran'] = [convert_to_label(pred) for pred in predictions]
 
         # Mengambil waktu dari kolom waktu dan format menjadi hari, tanggal, bulan, tahun
@@ -189,10 +181,10 @@ if sensor_data is not None and model is not None and scaler is not None:
 # Bagian Data Sensor di bawah Hasil Prediksi
 if sensor_data is not None:
     st.subheader("Data Sensor")
-    st.dataframe(sensor_data_display)
+    st.dataframe(sensor_data)
 
     # Fitur download hasil prediksi sebagai CSV
-    csv = sensor_data_display.to_csv(index=False)
+    csv = sensor_data.to_csv(index=False)
     st.download_button(
         label="Download Hasil Prediksi sebagai CSV",
         data=csv,
