@@ -192,6 +192,41 @@ if sensor_data is not None:
         mime='text/csv'
     )
 
+# Fitur Input Manual untuk Prediksi Real-time
+if model is not None and scaler is not None:
+    st.subheader("Prediksi Kebakaran Baru")
+    st.markdown("Masukkan nilai sensor untuk memprediksi kemungkinan kebakaran.")
+
+    suhu = st.number_input("Suhu Udara (°C)", min_value=0.0, max_value=100.0, value=25.0)
+    kelembapan_udara = st.number_input("Kelembapan Udara (%)", min_value=0.0, max_value=100.0, value=50.0)
+    curah_hujan = st.number_input("Curah Hujan/Jam (mm)", min_value=0.0, max_value=500.0, value=10.0)
+    kecepatan_angin = st.number_input("Kecepatan Angin (ms)", min_value=0.0, max_value=100.0, value=5.0)
+    kelembapan_tanah = st.number_input("Kelembapan Tanah (%)", min_value=0.0, max_value=100.0, value=40.0)
+
+    # Buat DataFrame dari input pengguna
+    input_data = pd.DataFrame({
+        'Tavg: Temperatur rata-rata (°C)': [suhu],
+        'RH_avg: Kelembapan rata-rata (%)': [kelembapan_udara],
+        'RR: Curah hujan (mm)': [curah_hujan],
+        'ff_avg: Kecepatan angin rata-rata (m/s)': [kecepatan_angin],
+        'Kelembaban Perbukaan Tanah': [kelembapan_tanah]
+    })
+
+    # Pra-pemrosesan input pengguna menggunakan scaler yang sudah dilatih
+    input_scaled = scaler.transform(input_data)
+
+    # Prediksi untuk input pengguna
+    user_prediction = model.predict(input_scaled)
+    user_label = convert_to_label(user_prediction[0])
+
+    # Menampilkan hasil prediksi dengan background warna
+    user_risk_style = risk_styles.get(user_label, {"color": "black", "background-color": "white"})
+
+    st.markdown(
+        f"<p style='color:{user_risk_style['color']}; background-color:{user_risk_style['background-color']}; font-weight: bold; padding: 10px; border-radius: 5px;'>Prediksi Risiko Kebakaran: {user_label}</p>", 
+        unsafe_allow_html=True
+    )
+
 # Footer dengan logo dan tulisan
 st.markdown("---")  # Garis pembatas untuk memisahkan footer
 col1, col2, col3 = st.columns([1, 3, 1])  # Layout kolom untuk gambar logo dan teks
