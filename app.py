@@ -159,8 +159,8 @@ if sensor_data is not None and model is not None and scaler is not None:
             <style>
             table { width: 100%; }
             thead th { text-align: center; background-color: #f0f0f0; }
-            td { text-align: left; }
             th { width: 40%; }  /* Mengatur lebar kolom Variabel */
+            td:nth-child(2) { width: 20%; text-align: left; }  /* Mengatur lebar kolom Value */
             </style>
         """, unsafe_allow_html=True)
 
