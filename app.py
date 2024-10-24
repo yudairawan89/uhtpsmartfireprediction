@@ -155,10 +155,10 @@ if sensor_data is not None and model is not None and scaler is not None:
 
         # Menambahkan kolom Variabel dan Value sesuai permintaan user
         st.write("**Data Sensor Realtime:**")
-        st.write(pd.DataFrame({
+        st.table(pd.DataFrame({
             "Variabel": ["Tavg: Temperatur rata-rata (°C)", "RH_avg: Kelembapan rata-rata (%)", "RR: Curah hujan (mm)", "ff_avg: Kecepatan angin rata-rata (m/s)", "Kelembaban Perbukaan Tanah"],
             "Value": last_row[fitur].values
-        }))
+        }).set_index("Variabel"))  # Hide the row numbers by setting the "Variabel" column as the index
 
         # Prediksi Kebakaran berdasarkan risiko
         risk = last_row['Prediksi Kebakaran']
