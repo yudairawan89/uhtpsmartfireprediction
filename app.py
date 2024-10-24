@@ -153,12 +153,12 @@ if sensor_data is not None and model is not None and scaler is not None:
         bulan_indonesia = convert_month_to_indonesian(waktu_prediksi.strftime('%B'))
         tanggal_prediksi = waktu_prediksi.strftime(f'%d {bulan_indonesia} %Y')
 
-        # Menampilkan data sensor tanpa kolom indeks
+        # Menampilkan data sensor tanpa kolom indeks, rata tengah
         st.write("**Data Sensor Realtime:**")
         st.write(pd.DataFrame({
             "Variabel": ["Tavg: Temperatur rata-rata (°C)", "RH_avg: Kelembapan rata-rata (%)", "RR: Curah hujan (mm)", "ff_avg: Kecepatan angin rata-rata (m/s)", "Kelembaban Perbukaan Tanah"],
             "Value": last_row[fitur].values
-        }).to_html(index=False), unsafe_allow_html=True)
+        }).style.set_properties(**{'text-align': 'center'}).hide_index().to_html(), unsafe_allow_html=True)
 
         # Prediksi Kebakaran berdasarkan risiko
         risk = last_row['Prediksi Kebakaran']
@@ -241,4 +241,4 @@ with col2:
 with col3:
     st.image("uhtp.png", width=100)  # Menampilkan logo UHTP
 
-st.markdown("<p style='text-align: center;'>Dikembangkan oleh Tim Dosen Universitas Hang Tuah Pekanbaru</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center;'>Dikembangkan oleh Universitas Hang Tuah Pekanbaru</p>", unsafe_allow_html=True)
