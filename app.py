@@ -153,7 +153,7 @@ if sensor_data is not None and model is not None and scaler is not None:
         bulan_indonesia = convert_month_to_indonesian(waktu_prediksi.strftime('%B'))
         tanggal_prediksi = waktu_prediksi.strftime(f'%d {bulan_indonesia} %Y')
 
-        st.write("**Variabel Data Sensor Realtime:**")
+        st.write("**Data Sensor Realtime:**")
         st.write(last_row[fitur])
 
         # Prediksi Kebakaran berdasarkan risiko
@@ -180,7 +180,7 @@ if sensor_data is not None and model is not None and scaler is not None:
 
 # Bagian Data Sensor di bawah Hasil Prediksi
 if sensor_data is not None:
-    st.subheader("Data Sensor Realtime")
+    st.subheader("Data Sensor")
     st.dataframe(sensor_data)
 
     # Fitur download hasil prediksi sebagai CSV
