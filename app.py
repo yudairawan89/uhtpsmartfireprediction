@@ -6,7 +6,7 @@ from sklearn.preprocessing import StandardScaler
 import io
 
 # Judul Aplikasi
-st.title("Prediksi Kebakaran")
+st.title("UHTP Smart Fire Prediction")
 
 # Deskripsi Aplikasi
 st.markdown("""
