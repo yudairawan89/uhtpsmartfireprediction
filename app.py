@@ -252,4 +252,4 @@ with col2:
 with col3:
     st.image("uhtp.png", width=100)  # Menampilkan logo UHTP
 
-st.markdown("<p style='text-align: center;'>Dikembangkan oleh Tim Dosen Universitas Hang Tuah Pekanbaru 2024</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center;'>Dikembangkan oleh Tim Dosen Universitas Hang Tuah Pekanbaru Tahun 2024</p>", unsafe_allow_html=True)
