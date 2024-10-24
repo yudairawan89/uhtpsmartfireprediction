@@ -153,12 +153,14 @@ if sensor_data is not None and model is not None and scaler is not None:
         bulan_indonesia = convert_month_to_indonesian(waktu_prediksi.strftime('%B'))
         tanggal_prediksi = waktu_prediksi.strftime(f'%d {bulan_indonesia} %Y')
 
-        # Menampilkan data sensor tanpa kolom indeks, dengan header rata tengah
+        # Menampilkan data sensor tanpa kolom indeks, dengan header rata tengah dan warna abu-abu
         st.write("**Data Sensor Realtime:**")
         st.markdown("""
             <style>
             table { width: 100%; }
-            thead th { text-align: center; }
+            thead th { text-align: center; background-color: #f0f0f0; }
+            td { text-align: left; }
+            th { width: 40%; }  /* Mengatur lebar kolom Variabel */
             </style>
         """, unsafe_allow_html=True)
 
