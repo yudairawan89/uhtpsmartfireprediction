@@ -3,8 +3,8 @@ import streamlit as st
 import pandas as pd
 import joblib
 from sklearn.preprocessing import StandardScaler
-import io
-import time
+from streamlit.runtime.legacy_caching import caching
+from streamlit_autorefresh import st_autorefresh
 
 # Menambahkan logo di sebelah kiri tulisan "UHTP Smart Fire Prediction"
 col1, col2 = st.columns([1, 6])  # Membuat layout kolom untuk logo dan judul
@@ -47,14 +47,12 @@ def load_scaler(scaler_path):
 # URL Data Google Sheets (format CSV)
 data_url = 'https://docs.google.com/spreadsheets/d/1ZscUJ6SLPIF33t8ikVHUmR68b-y3Q9_r_p9d2rDRMCM/export?format=csv'
 
-# Refresh otomatis menggunakan st.experimental_rerun()
-refresh_interval = 3  # Interval dalam detik
-time.sleep(refresh_interval)
-st.experimental_rerun()
+# Refresh otomatis setiap 3 detik
+st_autorefresh(interval=3000, key="data_refresh")
 
 # Tombol untuk refresh data manual
 if st.button('Refresh Data'):
-    st.cache_data.clear()  # Hapus cache agar data terbaru dimuat
+    caching.clear_cache()  # Hapus cache agar data terbaru dimuat
 
 # Deskripsi aplikasi yang dipindahkan ke bawah tombol
 st.markdown("""
