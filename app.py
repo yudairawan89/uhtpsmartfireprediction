@@ -5,6 +5,19 @@ import joblib
 from sklearn.preprocessing import StandardScaler
 import io
 
+# Fungsi untuk mengonversi hari ke bahasa Indonesia
+def convert_day_to_indonesian(day_name):
+    days_translation = {
+        'Monday': 'Senin',
+        'Tuesday': 'Selasa',
+        'Wednesday': 'Rabu',
+        'Thursday': 'Kamis',
+        'Friday': 'Jumat',
+        'Saturday': 'Sabtu',
+        'Sunday': 'Minggu'
+    }
+    return days_translation.get(day_name, day_name)
+
 # Menambahkan logo di sebelah kiri tulisan "UHTP Smart Fire Prediction"
 col1, col2 = st.columns([1, 6])  # Membuat layout kolom untuk logo dan judul
 with col1:
@@ -135,12 +148,14 @@ if sensor_data is not None:
                 last_row = sensor_data.iloc[-1]
 
                 # Mengambil waktu dari kolom waktu dan format menjadi hari, tanggal, bulan, tahun
-                tanggal_prediksi = pd.to_datetime(last_row['Waktu']).strftime('%A, %d %B %Y')
+                waktu_prediksi = pd.to_datetime(last_row['Waktu'])
+                hari_indonesia = convert_day_to_indonesian(waktu_prediksi.strftime('%A'))
+                tanggal_prediksi = waktu_prediksi.strftime('%d %B %Y')
 
                 st.write("**Variabel Data Paling Akhir:**")
                 st.write(last_row[fitur])
 
-                # Prediksi Kebakaran berdasarkan risiko dengan warna dan latar belakang
+                # Prediksi Kebakaran berdasarkan risiko dengan warna, ukuran font lebih besar, tebal, dan garis bawah
                 risk = last_row['Prediksi Kebakaran']
                 risk_styles = {
                     "Low": {"color": "white", "background-color": "blue"},
@@ -151,10 +166,11 @@ if sensor_data is not None:
 
                 risk_style = risk_styles.get(risk, {"color": "black", "background-color": "white"})
 
-                # Mengubah kalimat prediksi kebakaran
+                # Mengubah kalimat prediksi kebakaran dengan ukuran font lebih besar, tebal, dan garis bawah
                 st.markdown(
-                    f"<p style='color:{risk_style['color']}; background-color:{risk_style['background-color']}; font-weight: bold; padding: 10px; border-radius: 5px;'>"
-                    f"Pada hari {tanggal_prediksi}, lahan ini diprediksi memiliki tingkat resiko kebakaran: {risk}</p>", 
+                    f"<p style='color:{risk_style['color']}; background-color:{risk_style['background-color']}; "
+                    f"font-weight: bold; font-size: 24px; text-decoration: underline; padding: 10px; border-radius: 5px;'>"
+                    f"Pada hari {hari_indonesia}, tanggal {tanggal_prediksi}, lahan ini diprediksi memiliki tingkat resiko kebakaran: {risk}</p>", 
                     unsafe_allow_html=True
                 )
 
