@@ -168,3 +168,15 @@ if sensor_data is not None:
                 st.success(f"**Prediksi Risiko Kebakaran: {user_label}.**")
         else:
             st.error("Data sensor tidak memiliki semua kolom fitur yang diperlukan.")
+
+# Footer dengan logo dan tulisan
+st.markdown("---")  # Garis pembatas untuk memisahkan footer
+col1, col2, col3 = st.columns([1, 3, 1])  # Layout kolom untuk gambar logo dan teks
+with col1:
+    st.image("kemdikbud.png", width=100)  # Menampilkan logo Kemdikbud
+with col2:
+    st.markdown("<h3 style='text-align: center;'>UHTP Smart Fire Prediction - 2024</h3>", unsafe_allow_html=True)
+with col3:
+    st.image("uhtp.png", width=100)  # Menampilkan logo UHTP
+
+st.markdown("<p style='text-align: center;'>Dikembangkan oleh Universitas Hang Tuah Pekanbaru</p>", unsafe_allow_html=True)
