@@ -12,6 +12,12 @@ with col2:
     # Judul Aplikasi
     st.title("UHTP Smart Fire Prediction")
 
+# Deskripsi Aplikasi
+st.markdown("""
+Sistem Prediksi Tingkat Resiko Kebakaran Hutan dan Lahan menggunakan pengembangan model Hybrid Machine dan Deep Learning.
+Data diambil dari perangkat IoT secara Realtime [Google Sheets](https://docs.google.com/spreadsheets/d/1ZscUJ6SLPIF33t8ikVHUmR68b-y3Q9_r_p9d2rDRMCM/edit?usp=sharing).
+""")
+
 # Fungsi untuk memuat data
 @st.cache_data
 def load_data(url):
@@ -45,15 +51,46 @@ def load_scaler(scaler_path):
 # URL Data Google Sheets (format CSV)
 data_url = 'https://docs.google.com/spreadsheets/d/1ZscUJ6SLPIF33t8ikVHUmR68b-y3Q9_r_p9d2rDRMCM/export?format=csv'
 
-# Tombol untuk refresh data manual
+# Tombol untuk refresh data
 if st.button('Refresh Data'):
     st.cache_data.clear()  # Hapus cache agar data terbaru dimuat
 
-# Deskripsi aplikasi yang dipindahkan ke bawah tombol
-st.markdown("""
-Sistem Prediksi Tingkat Resiko Kebakaran Hutan dan Lahan menggunakan pengembangan model Hybrid Machine dan Deep Learning.
-Data diambil dari perangkat IoT secara Realtime [Google Sheets](https://docs.google.com/spreadsheets/d/1ZscUJ6SLPIF33t8ikVHUmR68b-y3Q9_r_p9d2rDRMCM/edit?usp=sharing).
-""")
+# Tampilkan hasil prediksi data paling akhir setelah refresh data
+st.subheader("Hasil Prediksi Data Paling Akhir")
+with st.expander("Klik untuk melihat detail variabel dan hasil prediksi"):
+    # Muat Data
+    sensor_data = load_data(data_url)
+
+    if sensor_data is not None:
+        # Mengganti nama kolom sesuai dengan model yang dilatih
+        sensor_data = sensor_data.rename(columns={
+            'Suhu Udara': 'Tavg: Temperatur rata-rata (°C)',
+            'Kelembapan Udara': 'RH_avg: Kelembapan rata-rata (%)',
+            'Curah Hujan/Jam': 'RR: Curah hujan (mm)',
+            'Kecepatan Angin (ms)': 'ff_avg: Kecepatan angin rata-rata (m/s)',
+            'Kelembapan Tanah': 'Kelembaban Perbukaan Tanah'
+        })
+
+        last_row = sensor_data.iloc[-1]
+        st.write("**Variabel Data Paling Akhir:**")
+        st.write(last_row[['Tavg: Temperatur rata-rata (°C)', 'RH_avg: Kelembapan rata-rata (%)', 
+                           'RR: Curah hujan (mm)', 'ff_avg: Kecepatan angin rata-rata (m/s)', 'Kelembaban Perbukaan Tanah']])
+
+        # Prediksi Kebakaran berdasarkan risiko dengan warna dan latar belakang
+        risk = last_row['Prediksi Kebakaran'] if 'Prediksi Kebakaran' in last_row else "Unknown"
+        risk_styles = {
+            "Low": {"color": "white", "background-color": "blue"},
+            "Moderate": {"color": "white", "background-color": "green"},
+            "High": {"color": "black", "background-color": "yellow"},
+            "Very High": {"color": "white", "background-color": "red"}
+        }
+
+        risk_style = risk_styles.get(risk, {"color": "black", "background-color": "white"})
+
+        st.markdown(
+            f"<p style='color:{risk_style['color']}; background-color:{risk_style['background-color']}; font-weight: bold; padding: 10px; border-radius: 5px;'>Prediksi Kebakaran: {risk}</p>", 
+            unsafe_allow_html=True
+        )
 
 # Muat Data
 sensor_data = load_data(data_url)
@@ -61,15 +98,6 @@ sensor_data = load_data(data_url)
 if sensor_data is not None:
     st.subheader("Data Sensor")
     st.dataframe(sensor_data)
-
-    # Mengganti nama kolom sesuai dengan model yang dilatih
-    sensor_data = sensor_data.rename(columns={
-        'Suhu Udara': 'Tavg: Temperatur rata-rata (°C)',
-        'Kelembapan Udara': 'RH_avg: Kelembapan rata-rata (%)',
-        'Curah Hujan/Jam': 'RR: Curah hujan (mm)',
-        'Kecepatan Angin (ms)': 'ff_avg: Kecepatan angin rata-rata (m/s)',
-        'Kelembapan Tanah': 'Kelembaban Perbukaan Tanah'
-    })
 
     # Muat Model dan Scaler
     model = load_model('meta_LR.joblib')
@@ -118,28 +146,14 @@ if sensor_data is not None:
             st.subheader("Hasil Prediksi")
             st.dataframe(sensor_data)
 
-            # Tampilkan hasil prediksi data paling akhir setelah sensor data
-            st.subheader("Hasil Prediksi Data Paling Akhir")
-            with st.expander("Klik untuk melihat detail variabel dan hasil prediksi"):
-                last_row = sensor_data.iloc[-1]
-                st.write("**Variabel Data Paling Akhir:**")
-                st.write(last_row[fitur])
-
-                # Prediksi Kebakaran berdasarkan risiko dengan warna dan latar belakang
-                risk = last_row['Prediksi Kebakaran']
-                risk_styles = {
-                    "Low": {"color": "white", "background-color": "blue"},
-                    "Moderate": {"color": "white", "background-color": "green"},
-                    "High": {"color": "black", "background-color": "yellow"},
-                    "Very High": {"color": "white", "background-color": "red"}
-                }
-
-                risk_style = risk_styles.get(risk, {"color": "black", "background-color": "white"})
-
-                st.markdown(
-                    f"<p style='color:{risk_style['color']}; background-color:{risk_style['background-color']}; font-weight: bold; padding: 10px; border-radius: 5px;'>Prediksi Kebakaran: {risk}</p>", 
-                    unsafe_allow_html=True
-                )
+            # Fitur download hasil prediksi sebagai CSV
+            csv = sensor_data.to_csv(index=False)
+            st.download_button(
+                label="Download Hasil Prediksi sebagai CSV",
+                data=csv,
+                file_name='hasil_prediksi_kebakaran.csv',
+                mime='text/csv'
+            )
 
             # Fitur Input Manual untuk Prediksi Real-time
             st.subheader("Prediksi Kebakaran Baru")
@@ -174,3 +188,17 @@ if sensor_data is not None:
                 f"<p style='color:{user_risk_style['color']}; background-color:{user_risk_style['background-color']}; font-weight: bold; padding: 10px; border-radius: 5px;'>Prediksi Risiko Kebakaran: {user_label}</p>", 
                 unsafe_allow_html=True
             )
+        else:
+            st.error("Data sensor tidak memiliki semua kolom fitur yang diperlukan.")
+
+# Footer dengan logo dan tulisan
+st.markdown("---")  # Garis pembatas untuk memisahkan footer
+col1, col2, col3 = st.columns([1, 3, 1])  # Layout kolom untuk gambar logo dan teks
+with col1:
+    st.image("kemdikbud.png", width=100)  # Menampilkan logo Kemdikbud
+with col2:
+    st.markdown("<h3 style='text-align: center;'>UHTP Smart Fire Prediction - 2024</h3>", unsafe_allow_html=True)
+with col3:
+    st.image("uhtp.png", width=100)  # Menampilkan logo UHTP
+
+st.markdown("<p style='text-align: center;'>Dikembangkan oleh Universitas Hang Tuah Pekanbaru</p>", unsafe_allow_html=True)
