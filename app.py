@@ -96,7 +96,7 @@ scaler = load_scaler('scaler.joblib')
 
 # Tampilkan hasil prediksi data paling akhir sebelum data sensor
 if sensor_data is not None and model is not None and scaler is not None:
-    st.subheader("Hasil Prediksi Data Paling Akhir")
+    st.subheader("Hasil Prediksi Data Paling Realtime")
 
     # Mengganti nama kolom sesuai dengan model yang dilatih
     sensor_data = sensor_data.rename(columns={
@@ -153,7 +153,7 @@ if sensor_data is not None and model is not None and scaler is not None:
         bulan_indonesia = convert_month_to_indonesian(waktu_prediksi.strftime('%B'))
         tanggal_prediksi = waktu_prediksi.strftime(f'%d {bulan_indonesia} %Y')
 
-        st.write("**Variabel Data Paling Akhir:**")
+        st.write("**Variabel Data Sensor Realtime:**")
         st.write(last_row[fitur])
 
         # Prediksi Kebakaran berdasarkan risiko
