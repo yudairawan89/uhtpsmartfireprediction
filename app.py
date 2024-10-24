@@ -94,6 +94,23 @@ sensor_data = load_data(data_url)
 model = load_model('meta_LR.joblib')
 scaler = load_scaler('scaler.joblib')
 
+# Debugging kolom data sensor untuk memeriksa apakah semua kolom tersedia
+if sensor_data is not None:
+    st.write("Kolom data yang tersedia:", sensor_data.columns)
+
+# Fungsi untuk mengonversi prediksi ke label risiko
+def convert_to_label(pred):
+    if pred == 0:
+        return "High"
+    elif pred == 1:
+        return "Low"
+    elif pred == 2:
+        return "Moderate"
+    elif pred == 3:
+        return "Very High"
+    else:
+        return "Unknown"
+
 # Tampilkan hasil prediksi data paling akhir sebelum data sensor
 if sensor_data is not None and model is not None and scaler is not None:
     st.subheader("Hasil Prediksi Data Paling Akhir")
@@ -135,18 +152,6 @@ if sensor_data is not None and model is not None and scaler is not None:
         predictions = model.predict(fitur_scaled_df)
 
         # Konversi prediksi numerik ke label kategori
-        def convert_to_label(pred):
-            if pred == 0:
-                return "High"
-            elif pred == 1:
-                return "Low"
-            elif pred == 2:
-                return "Moderate"
-            elif pred == 3:
-                return "Very High"
-            else:
-                return "Unknown"
-
         sensor_data['Prediksi Kebakaran'] = [convert_to_label(pred) for pred in predictions]
 
         # Mengambil waktu dari kolom waktu dan format menjadi hari, tanggal, bulan, tahun
