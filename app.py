@@ -115,6 +115,7 @@ if sensor_data is not None:
 
             sensor_data['Prediksi Kebakaran'] = [convert_to_label(pred) for pred in predictions]
 
+            # Menambahkan tampilan hasil prediksi di bawah data sensor
             st.subheader("Hasil Prediksi")
             st.dataframe(sensor_data)
 
@@ -127,13 +128,26 @@ if sensor_data is not None:
                 mime='text/csv'
             )
 
-            # Tampilkan hasil prediksi data paling akhir
+            # Tampilkan hasil prediksi data paling akhir setelah sensor data
             st.subheader("Hasil Prediksi Data Paling Akhir")
             with st.expander("Klik untuk melihat detail variabel dan hasil prediksi"):
                 last_row = sensor_data.iloc[-1]
                 st.write("**Variabel Data Paling Akhir:**")
                 st.write(last_row[fitur])
-                st.write(f"**Prediksi Kebakaran:** {last_row['Prediksi Kebakaran']}")
+
+                # Prediksi Kebakaran berdasarkan risiko dengan warna
+                risk = last_row['Prediksi Kebakaran']
+                risk_color = {
+                    "Low": "blue",
+                    "Moderate": "green",
+                    "High": "yellow",
+                    "Very High": "red"
+                }.get(risk, "black")
+
+                st.markdown(
+                    f"<p style='color:{risk_color}; font-weight: bold;'>Prediksi Kebakaran: {risk}</p>", 
+                    unsafe_allow_html=True
+                )
 
             # Fitur Input Manual untuk Prediksi Real-time
             st.subheader("Prediksi Kebakaran Baru")
@@ -162,21 +176,16 @@ if sensor_data is not None:
             user_label = convert_to_label(user_prediction[0])
 
             # Tampilkan hasil prediksi
-            if user_label == "High" or user_label == "Very High":
-                st.error(f"**Prediksi Risiko Kebakaran: {user_label}!**")
-            else:
-                st.success(f"**Prediksi Risiko Kebakaran: {user_label}.**")
+            user_risk_color = {
+                "Low": "blue",
+                "Moderate": "green",
+                "High": "yellow",
+                "Very High": "red"
+            }.get(user_label, "black")
+
+            st.markdown(
+                f"<p style='color:{user_risk_color}; font-weight: bold;'>Prediksi Risiko Kebakaran: {user_label}</p>", 
+                unsafe_allow_html=True
+            )
         else:
             st.error("Data sensor tidak memiliki semua kolom fitur yang diperlukan.")
-
-# Footer dengan logo dan tulisan
-st.markdown("---")  # Garis pembatas untuk memisahkan footer
-col1, col2, col3 = st.columns([1, 3, 1])  # Layout kolom untuk gambar logo dan teks
-with col1:
-    st.image("kemdikbud.png", width=100)  # Menampilkan logo Kemdikbud
-with col2:
-    st.markdown("<h3 style='text-align: center;'>UHTP Smart Fire Prediction</h3>", unsafe_allow_html=True)
-with col3:
-    st.image("uhtp.png", width=100)  # Menampilkan logo UHTP
-
-st.markdown("<p style='text-align: center;'>Dikembangkan oleh Tim Dosen Universitas Hang Tuah Pekanbaru</p>", unsafe_allow_html=True)
