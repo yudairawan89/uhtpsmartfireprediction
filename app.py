@@ -142,37 +142,7 @@ if sensor_data is not None:
                 mime='text/csv'
             )
 
-            # Tampilkan hasil prediksi data paling akhir setelah sensor data
-            st.subheader("Hasil Prediksi Data Paling Akhir")
-            with st.expander("Klik untuk melihat detail variabel dan hasil prediksi"):
-                last_row = sensor_data.iloc[-1]
-
-                # Mengambil waktu dari kolom waktu dan format menjadi hari, tanggal, bulan, tahun
-                waktu_prediksi = pd.to_datetime(last_row['Waktu'])
-                hari_indonesia = convert_day_to_indonesian(waktu_prediksi.strftime('%A'))
-                tanggal_prediksi = waktu_prediksi.strftime('%d %B %Y')
-
-                st.write("**Variabel Data Paling Akhir:**")
-                st.write(last_row[fitur])
-
-                # Prediksi Kebakaran berdasarkan risiko
-                risk = last_row['Prediksi Kebakaran']
-                risk_styles = {
-                    "Low": {"color": "white", "background-color": "blue"},
-                    "Moderate": {"color": "white", "background-color": "green"},
-                    "High": {"color": "black", "background-color": "yellow"},
-                    "Very High": {"color": "white", "background-color": "red"}
-                }
-
-                risk_style = risk_styles.get(risk, {"color": "black", "background-color": "white"})
-
-                # Menampilkan prediksi kebakaran dengan indikator risiko lebih besar, tebal, dan garis bawah
-                st.markdown(
-                    f"<p style='color:{risk_style['color']}; background-color:{risk_style['background-color']}; padding: 10px; border-radius: 5px;'>"
-                    f"Pada hari {hari_indonesia}, tanggal {tanggal_prediksi}, lahan ini diprediksi memiliki tingkat resiko kebakaran: "
-                    f"<span style='font-weight: bold; font-size: 28px; text-decoration: underline;'>{risk}</span></p>", 
-                    unsafe_allow_html=True
-                )
+ 
 
             # Fitur Input Manual untuk Prediksi Real-time
             st.subheader("Uji Prediksi Resiko Kebakaran Menggunakan Data Baru")
