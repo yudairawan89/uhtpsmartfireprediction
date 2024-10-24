@@ -175,8 +175,8 @@ col1, col2, col3 = st.columns([1, 3, 1])  # Layout kolom untuk gambar logo dan t
 with col1:
     st.image("kemdikbud.png", width=100)  # Menampilkan logo Kemdikbud
 with col2:
-    st.markdown("<h3 style='text-align: center;'>UHTP Smart Fire Prediction - 2024</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='text-align: center;'>UHTP Smart Fire Prediction</h3>", unsafe_allow_html=True)
 with col3:
     st.image("uhtp.png", width=100)  # Menampilkan logo UHTP
 
-st.markdown("<p style='text-align: center;'>Dikembangkan oleh Universitas Hang Tuah Pekanbaru</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center;'>Dikembangkan oleh Tim Dosen Universitas Hang Tuah Pekanbaru</p>", unsafe_allow_html=True)
