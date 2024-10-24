@@ -96,7 +96,7 @@ scaler = load_scaler('scaler.joblib')
 
 # Tampilkan hasil prediksi data paling akhir sebelum data sensor
 if sensor_data is not None and model is not None and scaler is not None:
-    st.subheader("Hasil Prediksi Data Paling Realtime")
+    st.subheader("Hasil Prediksi Data Realtime")
 
     # Mengganti nama kolom sesuai dengan model yang dilatih
     sensor_data = sensor_data.rename(columns={
@@ -159,9 +159,8 @@ if sensor_data is not None and model is not None and scaler is not None:
             <style>
             table { width: 100%; }
             thead th { text-align: center; background-color: #f0f0f0; }
-            th { width: 50%; }  /* Mengatur lebar kolom Variabel */
-            td { width: 50%; text-align: left; }  /* Mengatur lebar kolom Value */
-            td { max-width: 200px; } /* Memaksakan agar Value tidak melebar */
+            td { text-align: left; }
+            th { width: 40%; }  /* Mengatur lebar kolom Variabel */
             </style>
         """, unsafe_allow_html=True)
 
@@ -249,8 +248,8 @@ col1, col2, col3 = st.columns([1, 3, 1])  # Layout kolom untuk gambar logo dan t
 with col1:
     st.image("kemdikbud.png", width=100)  # Menampilkan logo Kemdikbud
 with col2:
-    st.markdown("<h3 style='text-align: center;'>UHTP Smart Fire Prediction - 2024</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='text-align: center;'>UHTP Smart Fire Prediction V1</h3>", unsafe_allow_html=True)
 with col3:
     st.image("uhtp.png", width=100)  # Menampilkan logo UHTP
 
-st.markdown("<p style='text-align: center;'>Dikembangkan oleh Universitas Hang Tuah Pekanbaru</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center;'>Dikembangkan oleh Tim Dosen Universitas Hang Tuah Pekanbaru 2024</p>", unsafe_allow_html=True)
