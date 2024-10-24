@@ -129,10 +129,6 @@ if sensor_data is not None:
 
             sensor_data['Prediksi Kebakaran'] = [convert_to_label(pred) for pred in predictions]
 
-            # Menambahkan tampilan hasil prediksi di bawah data sensor
-            st.subheader("Hasil Prediksi")
-            st.dataframe(sensor_data)
-
             # Fitur download hasil prediksi sebagai CSV
             csv = sensor_data.to_csv(index=False)
             st.download_button(
@@ -142,7 +138,7 @@ if sensor_data is not None:
                 mime='text/csv'
             )
 
-            # Tampilkan hasil prediksi data paling akhir setelah sensor data
+            # Tampilkan hasil prediksi data paling akhir setelah sensor data di bagian bawah
             st.subheader("Hasil Prediksi Data Paling Akhir")
             with st.expander("Klik untuk melihat detail variabel dan hasil prediksi"):
                 last_row = sensor_data.iloc[-1]
@@ -175,7 +171,7 @@ if sensor_data is not None:
                 )
 
             # Fitur Input Manual untuk Prediksi Real-time
-            st.subheader("Uji Prediksi Resiko Kebakaran Menggunakan Data Baru")
+            st.subheader("Prediksi Kebakaran Baru")
             st.markdown("Masukkan nilai sensor untuk memprediksi kemungkinan kebakaran.")
 
             suhu = st.number_input("Suhu Udara (°C)", min_value=0.0, max_value=100.0, value=25.0)
