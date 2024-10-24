@@ -3,6 +3,7 @@ import streamlit as st
 import pandas as pd
 import joblib
 from sklearn.preprocessing import StandardScaler
+import io
 
 # Menambahkan logo di sebelah kiri tulisan "UHTP Smart Fire Prediction"
 col1, col2 = st.columns([1, 6])  # Membuat layout kolom untuk logo dan judul
@@ -59,6 +60,9 @@ if st.button('Refresh Data'):
 sensor_data = load_data(data_url)
 
 if sensor_data is not None:
+    st.subheader("Data Sensor")
+    st.dataframe(sensor_data)
+
     # Mengganti nama kolom sesuai dengan model yang dilatih
     sensor_data = sensor_data.rename(columns={
         'Suhu Udara': 'Tavg: Temperatur rata-rata (°C)',
@@ -67,33 +71,6 @@ if sensor_data is not None:
         'Kecepatan Angin (ms)': 'ff_avg: Kecepatan angin rata-rata (m/s)',
         'Kelembapan Tanah': 'Kelembaban Perbukaan Tanah'
     })
-
-    # Tampilkan hasil prediksi data paling akhir setelah refresh data
-    st.subheader("Hasil Prediksi Data Paling Akhir")
-    with st.expander("Klik untuk melihat detail variabel dan hasil prediksi"):
-        last_row = sensor_data.iloc[-1]
-        st.write("**Variabel Data Paling Akhir:**")
-        st.write(last_row[['Tavg: Temperatur rata-rata (°C)', 'RH_avg: Kelembapan rata-rata (%)', 
-                           'RR: Curah hujan (mm)', 'ff_avg: Kecepatan angin rata-rata (m/s)', 'Kelembaban Perbukaan Tanah']])
-
-        # Prediksi Kebakaran berdasarkan risiko dengan warna dan latar belakang
-        risk = last_row['Prediksi Kebakaran'] if 'Prediksi Kebakaran' in last_row else "Unknown"
-        risk_styles = {
-            "Low": {"color": "white", "background-color": "blue"},
-            "Moderate": {"color": "white", "background-color": "green"},
-            "High": {"color": "black", "background-color": "yellow"},
-            "Very High": {"color": "white", "background-color": "red"}
-        }
-
-        risk_style = risk_styles.get(risk, {"color": "black", "background-color": "white"})
-
-        st.markdown(
-            f"<p style='color:{risk_style['color']}; background-color:{risk_style['background-color']}; font-weight: bold; padding: 10px; border-radius: 5px;'>Prediksi Kebakaran: {risk}</p>", 
-            unsafe_allow_html=True
-        )
-
-    st.subheader("Data Sensor")
-    st.dataframe(sensor_data)
 
     # Muat Model dan Scaler
     model = load_model('meta_LR.joblib')
@@ -123,9 +100,6 @@ if sensor_data is not None:
             # Prediksi
             predictions = model.predict(fitur_scaled_df)
 
-            # Debugging hasil prediksi
-            st.write("Hasil prediksi numerik dari model: ", predictions)
-
             # Konversi prediksi numerik ke label kategori
             def convert_to_label(pred):
                 if pred == 0:
@@ -137,13 +111,9 @@ if sensor_data is not None:
                 elif pred == 3:
                     return "Very High"
                 else:
-                    return "Unknown"  # Ini hanya fallback jika prediksi keluar dari range 0-3
+                    return "Unknown"
 
-            # Buat kolom untuk hasil prediksi setelah dikonversi ke label
             sensor_data['Prediksi Kebakaran'] = [convert_to_label(pred) for pred in predictions]
-
-            # Debugging hasil konversi label
-            st.write("Hasil prediksi setelah dikonversi ke label: ", sensor_data['Prediksi Kebakaran'])
 
             # Menambahkan tampilan hasil prediksi di bawah data sensor
             st.subheader("Hasil Prediksi")
@@ -157,6 +127,29 @@ if sensor_data is not None:
                 file_name='hasil_prediksi_kebakaran.csv',
                 mime='text/csv'
             )
+
+            # Tampilkan hasil prediksi data paling akhir setelah sensor data
+            st.subheader("Hasil Prediksi Data Paling Akhir")
+            with st.expander("Klik untuk melihat detail variabel dan hasil prediksi"):
+                last_row = sensor_data.iloc[-1]
+                st.write("**Variabel Data Paling Akhir:**")
+                st.write(last_row[fitur])
+
+                # Prediksi Kebakaran berdasarkan risiko dengan warna dan latar belakang
+                risk = last_row['Prediksi Kebakaran']
+                risk_styles = {
+                    "Low": {"color": "white", "background-color": "blue"},
+                    "Moderate": {"color": "white", "background-color": "green"},
+                    "High": {"color": "black", "background-color": "yellow"},
+                    "Very High": {"color": "white", "background-color": "red"}
+                }
+
+                risk_style = risk_styles.get(risk, {"color": "black", "background-color": "white"})
+
+                st.markdown(
+                    f"<p style='color:{risk_style['color']}; background-color:{risk_style['background-color']}; font-weight: bold; padding: 10px; border-radius: 5px;'>Prediksi Kebakaran: {risk}</p>", 
+                    unsafe_allow_html=True
+                )
 
             # Fitur Input Manual untuk Prediksi Real-time
             st.subheader("Prediksi Kebakaran Baru")
