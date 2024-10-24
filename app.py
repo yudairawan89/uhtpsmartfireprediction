@@ -69,7 +69,8 @@ if sensor_data is not None:
         'Kelembapan Udara': 'RH_avg: Kelembapan rata-rata (%)',
         'Curah Hujan/Jam': 'RR: Curah hujan (mm)',
         'Kecepatan Angin (ms)': 'ff_avg: Kecepatan angin rata-rata (m/s)',
-        'Kelembapan Tanah': 'Kelembaban Perbukaan Tanah'
+        'Kelembapan Tanah': 'Kelembaban Perbukaan Tanah',
+        'Waktu': 'Waktu'  # Pastikan ada kolom waktu
     })
 
     # Muat Model dan Scaler
@@ -132,6 +133,10 @@ if sensor_data is not None:
             st.subheader("Hasil Prediksi Data Paling Akhir")
             with st.expander("Klik untuk melihat detail variabel dan hasil prediksi"):
                 last_row = sensor_data.iloc[-1]
+
+                # Mengambil waktu dari kolom waktu dan format menjadi hari, tanggal, bulan, tahun
+                tanggal_prediksi = pd.to_datetime(last_row['Waktu']).strftime('%A, %d %B %Y')
+
                 st.write("**Variabel Data Paling Akhir:**")
                 st.write(last_row[fitur])
 
@@ -146,8 +151,10 @@ if sensor_data is not None:
 
                 risk_style = risk_styles.get(risk, {"color": "black", "background-color": "white"})
 
+                # Mengubah kalimat prediksi kebakaran
                 st.markdown(
-                    f"<p style='color:{risk_style['color']}; background-color:{risk_style['background-color']}; font-weight: bold; padding: 10px; border-radius: 5px;'>Prediksi Kebakaran: {risk}</p>", 
+                    f"<p style='color:{risk_style['color']}; background-color:{risk_style['background-color']}; font-weight: bold; padding: 10px; border-radius: 5px;'>"
+                    f"Pada hari {tanggal_prediksi}, lahan ini diprediksi memiliki tingkat resiko kebakaran: {risk}</p>", 
                     unsafe_allow_html=True
                 )
 
