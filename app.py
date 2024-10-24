@@ -10,8 +10,8 @@ st.title("UHTP Smart Fire Prediction")
 
 # Deskripsi Aplikasi
 st.markdown("""
-Aplikasi untuk memprediksi tingkat kemungkinan kebakaran berdasarkan data sensor.
-Data diambil dari [Google Sheets](https://docs.google.com/spreadsheets/d/1ZscUJ6SLPIF33t8ikVHUmR68b-y3Q9_r_p9d2rDRMCM/edit?usp=sharing).
+Sistem Prediksi Tingkat Resiko Kebakaran Hutan dan Lahan menggunakan pengembangan model Hybrid Machine dan Deep Learning.
+Data diambil dari perangkat IoT secara Realtime [Google Sheets](https://docs.google.com/spreadsheets/d/1ZscUJ6SLPIF33t8ikVHUmR68b-y3Q9_r_p9d2rDRMCM/edit?usp=sharing).
 """)
 
 # Fungsi untuk memuat data
