@@ -4,7 +4,6 @@ import pandas as pd
 import joblib
 from sklearn.preprocessing import StandardScaler
 import io
-import time
 
 # Fungsi untuk mengonversi hari ke bahasa Indonesia
 def convert_day_to_indonesian(day_name):
@@ -36,19 +35,6 @@ def convert_month_to_indonesian(month_name):
         'December': 'Desember'
     }
     return months_translation.get(month_name, month_name)
-
-# Fungsi untuk mengonversi prediksi numerik menjadi label risiko
-def convert_to_label(pred):
-    if pred == 0:
-        return "High"
-    elif pred == 1:
-        return "Low"
-    elif pred == 2:
-        return "Moderate"
-    elif pred == 3:
-        return "Very High"
-    else:
-        return "Unknown"
 
 # Menambahkan logo di sebelah kiri tulisan "UHTP Smart Fire Prediction"
 col1, col2 = st.columns([1, 6])  # Membuat layout kolom untuk logo dan judul
@@ -97,8 +83,9 @@ def load_scaler(scaler_path):
 # URL Data Google Sheets (format CSV)
 data_url = 'https://docs.google.com/spreadsheets/d/1ZscUJ6SLPIF33t8ikVHUmR68b-y3Q9_r_p9d2rDRMCM/export?format=csv'
 
-# Auto-refresh setiap 3 detik
-st_autorefresh(interval=3000, key="data_refresh")
+# Tombol untuk refresh data
+if st.button('Refresh Data'):
+    st.cache_data.clear()  # Hapus cache agar data terbaru dimuat
 
 # Muat Data
 sensor_data = load_data(data_url)
@@ -145,6 +132,18 @@ if sensor_data is not None and model is not None and scaler is not None:
         predictions = model.predict(fitur_scaled_df)
 
         # Konversi prediksi numerik ke label kategori
+        def convert_to_label(pred):
+            if pred == 0:
+                return "High"
+            elif pred == 1:
+                return "Low"
+            elif pred == 2:
+                return "Moderate"
+            elif pred == 3:
+                return "Very High"
+            else:
+                return "Unknown"
+
         sensor_data['Prediksi Kebakaran'] = [convert_to_label(pred) for pred in predictions]
 
         # Mengambil waktu dari kolom waktu dan format menjadi hari, tanggal, bulan, tahun
