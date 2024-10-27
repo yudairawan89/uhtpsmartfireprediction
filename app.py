@@ -84,8 +84,6 @@ def load_scaler(scaler_path):
 # URL Data Google Sheets (format CSV)
 data_url = 'https://docs.google.com/spreadsheets/d/1ZscUJ6SLPIF33t8ikVHUmR68b-y3Q9_r_p9d2rDRMCM/export?format=csv'
 
-
-
 # Refresh otomatis setiap 3 detik
 st_autorefresh(interval=3000, limit=None, key="data_refresh")
 st.cache_data.clear()
