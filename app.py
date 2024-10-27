@@ -4,6 +4,7 @@ import pandas as pd
 import joblib
 from sklearn.preprocessing import StandardScaler
 import io
+from streamlit_autorefresh import st_autorefresh
 
 # Fungsi untuk mengonversi hari ke bahasa Indonesia
 def convert_day_to_indonesian(day_name):
@@ -86,6 +87,9 @@ data_url = 'https://docs.google.com/spreadsheets/d/1ZscUJ6SLPIF33t8ikVHUmR68b-y3
 # Tombol untuk refresh data
 if st.button('Refresh Data'):
     st.cache_data.clear()  # Hapus cache agar data terbaru dimuat
+
+# Refresh otomatis setiap 3 detik
+st_autorefresh(interval=3000, limit=None, key="data_refresh")
 
 # Muat Data
 sensor_data = load_data(data_url)
