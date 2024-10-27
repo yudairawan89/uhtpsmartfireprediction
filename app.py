@@ -99,6 +99,11 @@ sensor_data = load_data(data_url)
 model = load_model('meta_LR.joblib')
 scaler = load_scaler('scaler.joblib')
 
+# Adding the uploaded image to the designated area
+st.image("logo.png", caption="Data Prediction Overview", width=500)
+
+
+
 # Tampilkan hasil prediksi data paling akhir sebelum data sensor
 if sensor_data is not None and model is not None and scaler is not None:
     st.subheader("Hasil Prediksi Data Realtime")
