@@ -139,13 +139,13 @@ if sensor_data is not None and model is not None and scaler is not None:
         # Konversi prediksi numerik ke label kategori
         def convert_to_label(pred):
             if pred == 0:
-                return "High"
+                return "High / Tinggi"
             elif pred == 1:
-                return "Low"
+                return "Low / Rendah"
             elif pred == 2:
-                return "Moderate"
+                return "Moderate / Sedang"
             elif pred == 3:
-                return "Very High"
+                return "Very High / Sangat Tinggi"
             else:
                 return "Unknown"
 
