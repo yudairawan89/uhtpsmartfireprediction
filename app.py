@@ -89,7 +89,7 @@ if st.button('Refresh Data'):
     st.cache_data.clear()  # Hapus cache agar data terbaru dimuat
 
 # Refresh otomatis setiap 3 detik
-st_autorefresh(interval=3000, limit=None, key="data_refresh")
+st_autorefresh(st.cache_data.clear())
 
 # Muat Data
 sensor_data = load_data(data_url)
