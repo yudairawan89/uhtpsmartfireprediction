@@ -3,12 +3,7 @@ import streamlit as st
 import pandas as pd
 import joblib
 from sklearn.preprocessing import StandardScaler
-import io
-
-
-# Tombol untuk refresh data
-if st.button('Refresh Data yuda'):
-    st.cache_data.clear()  # Hapus cache agar data terbaru dimuat
+import time
 
 # Fungsi untuk mengonversi hari ke bahasa Indonesia
 def convert_day_to_indonesian(day_name):
@@ -87,10 +82,6 @@ def load_scaler(scaler_path):
 
 # URL Data Google Sheets (format CSV)
 data_url = 'https://docs.google.com/spreadsheets/d/1ZscUJ6SLPIF33t8ikVHUmR68b-y3Q9_r_p9d2rDRMCM/export?format=csv'
-
-# Tombol untuk refresh data
-if st.button('Refresh Data'):
-    st.cache_data.clear()  # Hapus cache agar data terbaru dimuat
 
 # Muat Data
 sensor_data = load_data(data_url)
@@ -258,3 +249,7 @@ with col3:
     st.image("uhtp.png", width=100)  # Menampilkan logo UHTP
 
 st.markdown("<p style='text-align: center;'>Dikembangkan oleh Tim Dosen Universitas Hang Tuah Pekanbaru Tahun 2024</p>", unsafe_allow_html=True)
+
+# Refresh otomatis setiap 3 detik
+time.sleep(3)
+st.experimental_rerun()
