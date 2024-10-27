@@ -101,7 +101,7 @@ st.subheader("Hasil Prediksi Data Realtime")
 col_img, col_text = st.columns([2, 5])  # Membuat dua kolom dengan proporsi 2:5
 
 with col_img:
-    st.image("logo.png", width=500)  # Menambahkan gambar dengan ukuran 500 piksel lebar
+    st.image("logo.png", width=100)  # Menambahkan gambar dengan ukuran 500 piksel lebar
 
 with col_text:
     st.write("**Data Sensor Realtime:**")
