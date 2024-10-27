@@ -179,10 +179,10 @@ if sensor_data is not None and model is not None and scaler is not None:
         # Prediksi Kebakaran berdasarkan risiko
         risk = last_row['Prediksi Kebakaran']
         risk_styles = {
-            "Low": {"color": "white", "background-color": "blue"},
-            "Moderate": {"color": "white", "background-color": "green"},
-            "High": {"color": "black", "background-color": "yellow"},
-            "Very High": {"color": "white", "background-color": "red"}
+            "Low / Rendah": {"color": "white", "background-color": "blue"},
+            "Moderate / Sedang": {"color": "white", "background-color": "green"},
+            "High / Tinggi": {"color": "black", "background-color": "yellow"},
+            "Very High / Sangat Tinggi": {"color": "white", "background-color": "red"}
         }
 
         risk_style = risk_styles.get(risk, {"color": "black", "background-color": "white"})
