@@ -5,6 +5,11 @@ import joblib
 from sklearn.preprocessing import StandardScaler
 import io
 
+
+# Tombol untuk refresh data
+if st.button('Refresh Data yuda'):
+    st.cache_data.clear()  # Hapus cache agar data terbaru dimuat
+
 # Fungsi untuk mengonversi hari ke bahasa Indonesia
 def convert_day_to_indonesian(day_name):
     days_translation = {
