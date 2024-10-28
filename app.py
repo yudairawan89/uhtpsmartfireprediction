@@ -211,7 +211,7 @@ if sensor_data is not None and model is not None and scaler is not None:
 
 # Penjelasan tingkat resiko kebakaran
 st.markdown("""
-    **Tabel berikut menunjukkan besarnya intensitas api jika terjadi kebakaran hutan dan lahan.**
+    **Tabel berikut menunjukkan besarnya tingkat resiko kebakaran dan intensitas api jika terjadi kebakaran hutan dan lahan.**
 """)
 
 # Fire risk intensity table
