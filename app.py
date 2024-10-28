@@ -209,10 +209,9 @@ if sensor_data is not None and model is not None and scaler is not None:
         st.error("Data sensor tidak memiliki semua kolom fitur yang diperlukan.")
 
 
-# Explanation text for FWI
+# Penjelasan tingkat resiko kebakaran
 st.markdown("""
-    **FWI (Fire Weather Index)** menunjukkan besarnya intensitas api jika terjadi kebakaran hutan.
-    - FWI sangat dipengaruhi oleh nilai ISI (Initial Spread Index) dan BUI (Build Up Index).
+    **Tabel berikut* menunjukkan besarnya intensitas api jika terjadi kebakaran hutan dan lahan.**
 """)
 
 # Fire risk intensity table
@@ -220,9 +219,9 @@ st.markdown("""
     <table style="width:100%; border-collapse: collapse;">
         <thead>
             <tr style="background-color: #f0f0f0; text-align: left;">
-                <th style="padding: 8px; border: 1px solid #ddd; width: 15%;">Color</th>
+                <th style="padding: 8px; border: 1px solid #ddd; width: 15%;">Warna</th>
                 <th style="padding: 8px; border: 1px solid #ddd; width: 20%;">Tingkat Resiko</th>
-                <th style="padding: 8px; border: 1px solid #ddd; width: 65%;">Description</th>
+                <th style="padding: 8px; border: 1px solid #ddd; width: 65%;">Keterangan</th>
             </tr>
         </thead>
         <tbody>
