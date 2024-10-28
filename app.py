@@ -12,7 +12,7 @@ st.set_page_config(
     page_icon=im,
 )
 
-# CSS untuk latar belakang berwarna cyan dan frame bergaya outline merah untuk konten utama
+# CSS untuk latar belakang berwarna cyan, frame merah pada judul, dan frame putih untuk konten
 st.markdown("""
     <style>
         /* Latar belakang berwarna cyan */
@@ -20,7 +20,7 @@ st.markdown("""
             background-color: #E0FFFF; /* Warna latar belakang cyan */
         }
         
-        /* Frame putih dengan outline merah */
+        /* Frame putih untuk konten utama */
         .content-frame {
             background-color: white;
             padding: 20px;
@@ -28,7 +28,14 @@ st.markdown("""
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
             max-width: 800px;
             margin: auto;
-            border: 4px solid red; /* Outline merah */
+        }
+        
+        /* Frame merah untuk judul dan deskripsi */
+        .title-frame {
+            border: 4px solid red;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
         }
         
         /* Style table untuk hasil data */
@@ -39,22 +46,23 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Wrapper di sekitar konten aplikasi
+# Wrapper untuk judul dan deskripsi dengan frame merah
+st.markdown('<div class="title-frame">', unsafe_allow_html=True)
+col1, col2 = st.columns([1, 6])
+with col1:
+    st.image("logo.png", width=100)
+with col2:
+    st.title("UHTP Smart Fire Prediction")
+
+st.markdown("""
+    Sistem Prediksi Tingkat Resiko Kebakaran Hutan dan Lahan menggunakan pengembangan model Hybrid Machine dan Deep Learning.
+    Data diambil dari perangkat IoT secara Realtime [Google Sheets](https://docs.google.com/spreadsheets/d/1ZscUJ6SLPIF33t8ikVHUmR68b-y3Q9_r_p9d2rDRMCM/edit?usp=sharing).
+""")
+st.markdown('</div>', unsafe_allow_html=True)  # Penutup frame merah untuk judul dan deskripsi
+
+# Wrapper di sekitar konten utama
 with st.container():
-    st.markdown('<div class="content-frame">', unsafe_allow_html=True)  # Pembuka frame putih dengan outline merah
-
-    # Menambahkan logo di sebelah kiri tulisan "UHTP Smart Fire Prediction"
-    col1, col2 = st.columns([1, 6])
-    with col1:
-        st.image("logo.png", width=100)
-    with col2:
-        st.title("UHTP Smart Fire Prediction")
-
-    # Deskripsi aplikasi
-    st.markdown("""
-        Sistem Prediksi Tingkat Resiko Kebakaran Hutan dan Lahan menggunakan pengembangan model Hybrid Machine dan Deep Learning.
-        Data diambil dari perangkat IoT secara Realtime [Google Sheets](https://docs.google.com/spreadsheets/d/1ZscUJ6SLPIF33t8ikVHUmR68b-y3Q9_r_p9d2rDRMCM/edit?usp=sharing).
-    """)
+    st.markdown('<div class="content-frame">', unsafe_allow_html=True)  # Pembuka frame putih
 
     # Fungsi untuk mengonversi hari ke bahasa Indonesia
     def convert_day_to_indonesian(day_name):
@@ -263,4 +271,4 @@ with st.container():
 
     st.markdown("<p style='text-align: center;'>Dikembangkan oleh Tim Dosen Universitas Hang Tuah Pekanbaru Tahun 2024</p>", unsafe_allow_html=True)
 
-    st.markdown('</div>', unsafe_allow_html=True)  # Penutup frame putih dengan outline merah
+    st.markdown('</div>', unsafe_allow_html=True)  # Penutup frame putih untuk konten utama
