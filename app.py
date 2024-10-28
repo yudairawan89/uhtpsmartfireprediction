@@ -6,7 +6,7 @@ from sklearn.preprocessing import StandardScaler
 import io
 from streamlit_autorefresh import st_autorefresh
 
-im = Image.open("logo.png")
+im = Image.open("logo.ico")
 st.set_page_config(
     page_title="Hello",
     page_icon=im,
