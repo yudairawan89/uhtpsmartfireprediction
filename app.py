@@ -220,35 +220,36 @@ st.markdown("""
     <table style="width:100%; border-collapse: collapse;">
         <thead>
             <tr style="background-color: #f0f0f0; text-align: left;">
-                <th style="padding: 8px; border: 1px solid #ddd;">Color</th>
-                <th style="padding: 8px; border: 1px solid #ddd;">Range</th>
-                <th style="padding: 8px; border: 1px solid #ddd;">Description</th>
+                <th style="padding: 8px; border: 1px solid #ddd; width: 15%;">Color</th>
+                <th style="padding: 8px; border: 1px solid #ddd; width: 20%;">Tingkat Resiko</th>
+                <th style="padding: 8px; border: 1px solid #ddd; width: 65%;">Description</th>
             </tr>
         </thead>
         <tbody>
-            <tr style="background-color: #add8e6;">
+            <tr style="background-color: blue; color: white;">
                 <td style="padding: 8px; border: 1px solid #ddd;">Blue</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">0 - 1</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">Low</td>
                 <td style="padding: 8px; border: 1px solid #ddd;">Intensitas api pada kategori rendah. Api mudah dikendalikan, cenderung akan padam dengan sendirinya.</td>
             </tr>
-            <tr style="background-color: #00ff00;">
+            <tr style="background-color: green; color: white;">
                 <td style="padding: 8px; border: 1px solid #ddd;">Green</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">2 - 6</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">Moderate</td>
                 <td style="padding: 8px; border: 1px solid #ddd;">Intensitas api pada kategori sedang. Api relatif masih cukup mudah dikendalikan.</td>
             </tr>
-            <tr style="background-color: #ffff00;">
+            <tr style="background-color: yellow; color: black;">
                 <td style="padding: 8px; border: 1px solid #ddd;">Yellow</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">7 - 13</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">High</td>
                 <td style="padding: 8px; border: 1px solid #ddd;">Intensitas api pada kategori tinggi. Api sulit dikendalikan.</td>
             </tr>
-            <tr style="background-color: #ff0000; color: white;">
+            <tr style="background-color: red; color: white;">
                 <td style="padding: 8px; border: 1px solid #ddd;">Red</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">&gt; 13</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">Very High</td>
                 <td style="padding: 8px; border: 1px solid #ddd;">Intensitas api pada kategori sangat tinggi. Api sangat sulit dikendalikan.</td>
             </tr>
         </tbody>
     </table>
 """, unsafe_allow_html=True)
+
 
 
 
