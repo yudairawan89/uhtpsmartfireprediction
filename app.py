@@ -6,6 +6,14 @@ from sklearn.preprocessing import StandardScaler
 import io
 from streamlit_autorefresh import st_autorefresh
 
+im = Image.open("logo.png")
+st.set_page_config(
+    page_title="Hello",
+    page_icon=im,
+    layout="wide",
+)
+
+
 # Fungsi untuk mengonversi hari ke bahasa Indonesia
 def convert_day_to_indonesian(day_name):
     days_translation = {
