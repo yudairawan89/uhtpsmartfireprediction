@@ -15,6 +15,19 @@ st.set_page_config(
 
 )
 
+# CSS untuk menambahkan warna latar belakang sesuai dengan kode warna yang diminta
+page_bg_color = """
+<style>
+body {
+    background-color: #631736;
+    color: white;
+}
+</style>
+"""
+st.markdown(page_bg_color, unsafe_allow_html=True)
+
+
+
 
 # Fungsi untuk mengonversi hari ke bahasa Indonesia
 def convert_day_to_indonesian(day_name):
