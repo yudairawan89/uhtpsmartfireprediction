@@ -220,7 +220,7 @@ st.markdown("""
         <thead>
             <tr style="background-color: #f0f0f0; text-align: left;">
                 <th style="padding: 8px; border: 1px solid #ddd; width: 15%;">Warna</th>
-                <th style="padding: 8px; border: 1px solid #ddd; width: 20%;">Tingkat Resiko</th>
+                <th style="padding: 8px; border: 1px solid #ddd; width: 20%;">Tingkat Resiko / Intensitas</th>
                 <th style="padding: 8px; border: 1px solid #ddd; width: 65%;">Keterangan</th>
             </tr>
         </thead>
