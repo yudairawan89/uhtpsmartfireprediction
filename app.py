@@ -3,18 +3,8 @@ import streamlit as st
 import pandas as pd
 import joblib
 from sklearn.preprocessing import StandardScaler
-#import io
-from PIL import Image  # Tambahkan ini untuk mengimpor Image dari PIL
+import io
 from streamlit_autorefresh import st_autorefresh
-
-# Load favicon image
-im = Image.open("favicon.ico")
-st.set_page_config(
-    page_title="UHTP Smart Fire Prediction",
-    page_icon=im,
-
-)
-
 
 # Fungsi untuk mengonversi hari ke bahasa Indonesia
 def convert_day_to_indonesian(day_name):
@@ -94,10 +84,6 @@ def load_scaler(scaler_path):
 # URL Data Google Sheets (format CSV)
 data_url = 'https://docs.google.com/spreadsheets/d/1ZscUJ6SLPIF33t8ikVHUmR68b-y3Q9_r_p9d2rDRMCM/export?format=csv'
 
-# Tombol untuk refresh data
-#if st.button('Refresh Data'):
-#    st.cache_data.clear()  # Hapus cache agar data terbaru dimuat
-
 # Refresh otomatis setiap 3 detik
 st_autorefresh(interval=3000, limit=None, key="data_refresh")
 st.cache_data.clear()
@@ -149,13 +135,13 @@ if sensor_data is not None and model is not None and scaler is not None:
         # Konversi prediksi numerik ke label kategori
         def convert_to_label(pred):
             if pred == 0:
-                return "High / Tinggi"
+                return "High"
             elif pred == 1:
-                return "Low / Rendah"
+                return "Low"
             elif pred == 2:
-                return "Moderate / Sedang"
+                return "Moderate"
             elif pred == 3:
-                return "Very High / Sangat Tinggi"
+                return "Very High"
             else:
                 return "Unknown"
 
@@ -189,10 +175,10 @@ if sensor_data is not None and model is not None and scaler is not None:
         # Prediksi Kebakaran berdasarkan risiko
         risk = last_row['Prediksi Kebakaran']
         risk_styles = {
-            "Low / Rendah": {"color": "white", "background-color": "blue"},
-            "Moderate / Sedang": {"color": "white", "background-color": "green"},
-            "High / Tinggi": {"color": "black", "background-color": "yellow"},
-            "Very High / Sangat Tinggi": {"color": "white", "background-color": "red"}
+            "Low": {"color": "white", "background-color": "blue"},
+            "Moderate": {"color": "white", "background-color": "green"},
+            "High": {"color": "black", "background-color": "yellow"},
+            "Very High": {"color": "white", "background-color": "red"}
         }
 
         risk_style = risk_styles.get(risk, {"color": "black", "background-color": "white"})
@@ -207,51 +193,6 @@ if sensor_data is not None and model is not None and scaler is not None:
 
     else:
         st.error("Data sensor tidak memiliki semua kolom fitur yang diperlukan.")
-
-
-# Penjelasan tingkat resiko kebakaran
-st.markdown("""
-    **Tabel berikut menunjukkan besarnya tingkat resiko kebakaran dan intensitas api jika terjadi kebakaran hutan dan lahan.**
-""")
-
-# Fire risk intensity table
-st.markdown("""
-    <table style="width:100%; border-collapse: collapse;">
-        <thead>
-            <tr style="background-color: #f0f0f0; text-align: left;">
-                <th style="padding: 8px; border: 1px solid #ddd; width: 15%;">Warna</th>
-                <th style="padding: 8px; border: 1px solid #ddd; width: 20%;">Tingkat Resiko / Intensitas</th>
-                <th style="padding: 8px; border: 1px solid #ddd; width: 65%;">Keterangan</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr style="background-color: blue; color: white;">
-                <td style="padding: 8px; border: 1px solid #ddd;">Blue</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">Low</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">Tingkat resiko kebakaran rendah. Intensitas api pada kategori rendah. Api mudah dikendalikan, cenderung akan padam dengan sendirinya.</td>
-            </tr>
-            <tr style="background-color: green; color: white;">
-                <td style="padding: 8px; border: 1px solid #ddd;">Green</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">Moderate</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">Tingkat resiko kebakaran sedang. Intensitas api pada kategori sedang. Api relatif masih cukup mudah dikendalikan.</td>
-            </tr>
-            <tr style="background-color: yellow; color: black;">
-                <td style="padding: 8px; border: 1px solid #ddd;">Yellow</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">High</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">Tingkat resiko kebakaran tinggi. Intensitas api pada kategori tinggi. Api sulit dikendalikan.</td>
-            </tr>
-            <tr style="background-color: red; color: white;">
-                <td style="padding: 8px; border: 1px solid #ddd;">Red</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">Very High</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">Tingkat resiko kebakaran sangat tinggi. Intensitas api pada kategori sangat tinggi. Api sangat sulit dikendalikan.</td>
-            </tr>
-        </tbody>
-    </table>
-""", unsafe_allow_html=True)
-
-
-
-
 
 # Bagian Data Sensor di bawah Hasil Prediksi
 if sensor_data is not None:
