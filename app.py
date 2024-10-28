@@ -12,15 +12,15 @@ st.set_page_config(
     page_icon=im,
 )
 
-# CSS untuk latar belakang berwarna dan frame putih untuk konten utama
+# CSS untuk latar belakang berwarna cyan dan frame bergaya outline merah untuk konten utama
 st.markdown("""
     <style>
-        /* Latar belakang berwarna */
+        /* Latar belakang berwarna cyan */
         .stApp {
-            background-color: #EAEAEA; /* Warna latar belakang */
+            background-color: #E0FFFF; /* Warna latar belakang cyan */
         }
         
-        /* Frame putih untuk konten */
+        /* Frame putih dengan outline merah */
         .content-frame {
             background-color: white;
             padding: 20px;
@@ -28,6 +28,7 @@ st.markdown("""
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
             max-width: 800px;
             margin: auto;
+            border: 4px solid red; /* Outline merah */
         }
         
         /* Style table untuk hasil data */
@@ -40,7 +41,7 @@ st.markdown("""
 
 # Wrapper di sekitar konten aplikasi
 with st.container():
-    st.markdown('<div class="content-frame">', unsafe_allow_html=True)  # Pembuka frame putih
+    st.markdown('<div class="content-frame">', unsafe_allow_html=True)  # Pembuka frame putih dengan outline merah
 
     # Menambahkan logo di sebelah kiri tulisan "UHTP Smart Fire Prediction"
     col1, col2 = st.columns([1, 6])
@@ -262,4 +263,4 @@ with st.container():
 
     st.markdown("<p style='text-align: center;'>Dikembangkan oleh Tim Dosen Universitas Hang Tuah Pekanbaru Tahun 2024</p>", unsafe_allow_html=True)
 
-    st.markdown('</div>', unsafe_allow_html=True)  # Penutup frame putih
+    st.markdown('</div>', unsafe_allow_html=True)  # Penutup frame putih dengan outline merah
