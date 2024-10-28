@@ -10,7 +10,7 @@ from streamlit_autorefresh import st_autorefresh
 # Load favicon image
 im = Image.open("favicon.ico")
 st.set_page_config(
-    page_title="Hello",
+    page_title="UHTP Smart Fire Prediction",
     page_icon=im,
 
 )
