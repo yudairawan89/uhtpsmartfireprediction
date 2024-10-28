@@ -20,6 +20,17 @@ st.markdown("""
             background-color: #E0FFFF; /* Warna latar belakang cyan */
         }
         
+        /* Frame merah untuk judul dan deskripsi */
+        .title-frame {
+            border: 4px solid red;
+            padding: 10px;
+            border-radius: 15px;  /* Membuat sudut membulat */
+            margin-bottom: 20px;
+            background-color: white; /* Menambahkan latar belakang putih untuk kontras */
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
         /* Frame putih untuk konten utama */
         .content-frame {
             background-color: white;
@@ -29,15 +40,7 @@ st.markdown("""
             max-width: 800px;
             margin: auto;
         }
-        
-        /* Frame merah untuk judul dan deskripsi */
-        .title-frame {
-            border: 4px solid red;
-            padding: 10px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-        
+
         /* Style table untuk hasil data */
         table { width: 100%; }
         thead th { text-align: center; background-color: #f0f0f0; }
@@ -48,11 +51,8 @@ st.markdown("""
 
 # Wrapper untuk judul dan deskripsi dengan frame merah
 st.markdown('<div class="title-frame">', unsafe_allow_html=True)
-col1, col2 = st.columns([1, 6])
-with col1:
-    st.image("logo.png", width=100)
-with col2:
-    st.title("UHTP Smart Fire Prediction")
+st.image("logo.png", width=100)
+st.title("UHTP Smart Fire Prediction")
 
 st.markdown("""
     Sistem Prediksi Tingkat Resiko Kebakaran Hutan dan Lahan menggunakan pengembangan model Hybrid Machine dan Deep Learning.
