@@ -228,22 +228,22 @@ st.markdown("""
             <tr style="background-color: blue; color: white;">
                 <td style="padding: 8px; border: 1px solid #ddd;">Blue</td>
                 <td style="padding: 8px; border: 1px solid #ddd;">Low</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">Intensitas api pada kategori rendah. Api mudah dikendalikan, cenderung akan padam dengan sendirinya.</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">Tingkat resiko kebakaran rendah. Intensitas api pada kategori rendah. Api mudah dikendalikan, cenderung akan padam dengan sendirinya.</td>
             </tr>
             <tr style="background-color: green; color: white;">
                 <td style="padding: 8px; border: 1px solid #ddd;">Green</td>
                 <td style="padding: 8px; border: 1px solid #ddd;">Moderate</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">Intensitas api pada kategori sedang. Api relatif masih cukup mudah dikendalikan.</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">Tingkat resiko kebakaran sedang. Intensitas api pada kategori sedang. Api relatif masih cukup mudah dikendalikan.</td>
             </tr>
             <tr style="background-color: yellow; color: black;">
                 <td style="padding: 8px; border: 1px solid #ddd;">Yellow</td>
                 <td style="padding: 8px; border: 1px solid #ddd;">High</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">Intensitas api pada kategori tinggi. Api sulit dikendalikan.</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">Tingkat resiko kebakaran tinggi. Intensitas api pada kategori tinggi. Api sulit dikendalikan.</td>
             </tr>
             <tr style="background-color: red; color: white;">
                 <td style="padding: 8px; border: 1px solid #ddd;">Red</td>
                 <td style="padding: 8px; border: 1px solid #ddd;">Very High</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">Intensitas api pada kategori sangat tinggi. Api sangat sulit dikendalikan.</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">Tingkat resiko kebakaran sangat tinggi. Intensitas api pada kategori sangat tinggi. Api sangat sulit dikendalikan.</td>
             </tr>
         </tbody>
     </table>
