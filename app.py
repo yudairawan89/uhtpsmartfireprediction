@@ -208,6 +208,51 @@ if sensor_data is not None and model is not None and scaler is not None:
     else:
         st.error("Data sensor tidak memiliki semua kolom fitur yang diperlukan.")
 
+
+# Explanation text for FWI
+st.markdown("""
+    **FWI (Fire Weather Index)** menunjukkan besarnya intensitas api jika terjadi kebakaran hutan.
+    - FWI sangat dipengaruhi oleh nilai ISI (Initial Spread Index) dan BUI (Build Up Index).
+""")
+
+# Fire risk intensity table
+st.markdown("""
+    <table style="width:100%; border-collapse: collapse;">
+        <thead>
+            <tr style="background-color: #f0f0f0; text-align: left;">
+                <th style="padding: 8px; border: 1px solid #ddd;">Color</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">Range</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="background-color: #add8e6;">
+                <td style="padding: 8px; border: 1px solid #ddd;">Blue</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">0 - 1</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">Intensitas api pada kategori rendah. Api mudah dikendalikan, cenderung akan padam dengan sendirinya.</td>
+            </tr>
+            <tr style="background-color: #00ff00;">
+                <td style="padding: 8px; border: 1px solid #ddd;">Green</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">2 - 6</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">Intensitas api pada kategori sedang. Api relatif masih cukup mudah dikendalikan.</td>
+            </tr>
+            <tr style="background-color: #ffff00;">
+                <td style="padding: 8px; border: 1px solid #ddd;">Yellow</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">7 - 13</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">Intensitas api pada kategori tinggi. Api sulit dikendalikan.</td>
+            </tr>
+            <tr style="background-color: #ff0000; color: white;">
+                <td style="padding: 8px; border: 1px solid #ddd;">Red</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">&gt; 13</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">Intensitas api pada kategori sangat tinggi. Api sangat sulit dikendalikan.</td>
+            </tr>
+        </tbody>
+    </table>
+""", unsafe_allow_html=True)
+
+
+
+
 # Bagian Data Sensor di bawah Hasil Prediksi
 if sensor_data is not None:
     st.subheader("Data Sensor")
