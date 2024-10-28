@@ -4,8 +4,10 @@ import pandas as pd
 import joblib
 from sklearn.preprocessing import StandardScaler
 import io
+from PIL import Image  # Tambahkan ini untuk mengimpor Image dari PIL
 from streamlit_autorefresh import st_autorefresh
 
+# Load favicon image
 im = Image.open("favicon.ico")
 st.set_page_config(
     page_title="Hello",
