@@ -282,10 +282,11 @@ col1, col2, col3, col4 = st.columns([1, 2, 2, 1])
 with col1:
     st.image("kemdikbud.png", width=100)  
 with col2:
-    st.image("saintek.png", width=100)   # Logo tambahan di sebelah kanan kemdikbud
+    st.image("logo saintek.png", width=100)   # Logo tambahan di sebelah kanan kemdikbud
 with col3:
     st.markdown("<h3 style='text-align: center;'>UHTP Smart Fire Prediction V1</h3>", unsafe_allow_html=True)
 with col4:
     st.image("uhtp.png", width=100)  
 
 st.markdown("<p style='text-align: center;'>Dikembangkan oleh Tim Dosen Universitas Hang Tuah Pekanbaru Tahun 2024</p>", unsafe_allow_html=True)
+
