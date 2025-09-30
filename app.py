@@ -280,7 +280,7 @@ if model is not None and scaler is not None:
 st.markdown("---")
 col1, col2, col3, col4 = st.columns([1, 2, 2, 1])  
 with col1:
-    st.image("kemdikbudd.png", width=100)  
+    st.image("kemdikbud.png", width=100)  
 with col2:
     st.image("logo saintek.png", width=100)   # Logo tambahan di sebelah kanan kemdikbud
 with col3:
@@ -289,5 +289,6 @@ with col4:
     st.image("uhtp.png", width=100)  
 
 st.markdown("<p style='text-align: center;'>Dikembangkan oleh Tim Dosen Universitas Hang Tuah Pekanbaru Tahun 2024</p>", unsafe_allow_html=True)
+
 
 
